@@ -1,0 +1,4 @@
+[-] H. Choset, K. M. Lynch, S. Hutchinson, G. Kantor, W. Burgard, L. E. Kavraki and S. Thrun, Principles of Robot Motion: Theory, Algorithms, and Implementations,
+MIT Press, Boston, 2005, http://www.cs.cmu.edu/afs/cs/Web/People/motionplanning/
+
+[] Bug Path Planning - http://www.cs.cmu.edu/~motionplanning/lecture/lec3.pdf

@@ -1,0 +1,765 @@
+
+\chapter{Evaluation} \label{sec: app_evaluation}
+
+\section{Algorithms}
+This section contains extra evaluation results. For convenience we have provided the evaluated algorithms table as well (See Tables \ref{tab: app_evalalgorithms}, \ref{tab: app_eval_lstm_bagging}).
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{2cm}|c|c|}
+         \hline
+         \textbf{Kernel} & \textbf{Training Data} & \textbf{Algorithm}\\
+         \hline
+         \hline
+         CAE Online LSTM & \texttt{block\_map\_10000} & \cellcolor{blue!40} \hyperref[tab: app_evalalgorithms]{7} \\
+         \hline
+         CAE Online LSTM & \texttt{uniform\_random\_fill\_10000} & \cellcolor{blue!20} \hyperref[tab: app_evalalgorithms]{6} \\
+         \hline
+         CAE Online LSTM & \texttt{house\_10000} & \cellcolor{blue!20} \hyperref[tab: app_evalalgorithms]{8} \\
+         \hline
+         CAE Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000\_house\_10000} & \cellcolor{blue!20} \hyperref[tab: app_evalalgorithms]{9} \\
+         \hline
+         CAE Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000} & \cellcolor{blue!20} \hyperref[tab: app_evalalgorithms]{10} \\
+         \hline
+         \hline
+         Online LSTM & \texttt{uniform\_random\_fill\_10000} & \cellcolor{red!40} \hyperref[tab: app_evalalgorithms]{1} \\
+         \hline
+         Online LSTM & \texttt{block\_map\_10000} & \cellcolor{red!20} \hyperref[tab: app_evalalgorithms]{2} \\
+         \hline
+         Online LSTM & \texttt{house\_10000} & \cellcolor{red!20} \hyperref[tab: app_evalalgorithms]{3} \\
+         \hline
+         Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000} & \cellcolor{red!20} \hyperref[tab: app_evalalgorithms]{4} \\
+         \hline
+         Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000\_house\_10000} & \cellcolor{red!20} \hyperref[tab: app_evalalgorithms]{5} \\ 
+         \hline
+    \end{tabular}
+    \caption{LSTM Bagging Planner (Algorithms  \hyperref[tab: app_evalalgorithms]{11} and \hyperref[tab: app_evalalgorithms]{14}) kernel configuration in priority order}
+    \label{tab: app_eval_lstm_bagging}
+\end{table}
+
+\pagebreak
+
+\begin{table}[h!] 
+\footnotesize 
+\centerfloat
+\begin{tabular}{|cc|M{4.6cm}|c|}
+\hline
+    \multicolumn{2}{|c|}{\textbf{Nr.}} & \textbf{Planner} & \textbf{Training Data}\\
+    \hline
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{lightgray!20} 0} & A* & n/a\\
+    \hline
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{red!40} 1} & Online LSTM (\cite{nicola2018lstm}) & \texttt{uniform\_random\_fill\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{red!20} 2} & Online LSTM & \texttt{block\_map\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{red!20} 3} & Online LSTM & \texttt{house\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{red!20} 4} & Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{red!20} 5} & Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000\_house\_10000}\\
+    \hline
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{blue!20} 6} & CAE Online LSTM & \texttt{uniform\_random\_fill\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{blue!40} 7} & CAE Online LSTM (\cite{inoue2019robot}) & \texttt{block\_map\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{blue!20} 8} & CAE Online LSTM & \texttt{house\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{blue!20} 9} & CAE Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000}\\
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{blue!20} 10} & CAE Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000\_house\_10000}\\
+    \hline
+    \hline
+    \multicolumn{2}{|c|}{\cellcolor{orange!40} 11} & LSTM Bagging & See Table \ref{tab: app_eval_lstm_bagging} \\
+    \hline
+    \hline
+    \multicolumn{1}{|M{0.15cm}}{\cellcolor{cyan!40}} & \multicolumn{1}{M{0.15cm}|}{\cellcolor{blue!40} \hspace*{-0.5cm}12} & Global Way-point LSTM GK: CAE Online LSTM & \texttt{block\_map\_10000}\\
+    \hline
+    \multicolumn{1}{|M{0.15cm}}{\cellcolor{cyan!40}} & \multicolumn{1}{M{0.15cm}|}{\cellcolor{red!40} \hspace*{-0.5cm}13} & Global Way-point LSTM GK: Online LSTM & \texttt{uniform\_random\_fill\_10000\_block\_map\_10000\_house\_10000}\\
+    \hline
+    \multicolumn{1}{|M{0.15cm}}{\cellcolor{cyan!40}} & \multicolumn{1}{M{0.15cm}|}{\cellcolor{orange!40} \hspace*{-0.5cm}14} & Global Way-point LSTM GK: LSTM Bagging (proposed solution) & See Table \ref{tab: app_eval_lstm_bagging} \\
+    \hline
+    \end{tabular}
+\caption{Evaluated algorithms and their respective training dataset. All algorithms are colour-coded: A* is light-grey, Online LSTM Planner is red (solution with same training dataset as \cite{nicola2018lstm} is darker red), CAE Online LSTM Planner is blue (solution with same training dataset as \cite{inoue2019robot} is darker blue), LSTM Bagging Planner is orange, Global Way-point LSTM Planner is half cyan and half global kernel colour (e.g. Algorithm 14 has both cyan and orange colours as it uses the LSTM Bagging Planner as the GK)}
+\label{tab: app_evalalgorithms}
+\end{table}
+
+\FloatBarrier
+
+\section{Online LSTM Planner Full Training Analysis}
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|M{1.5cm}|M{1.5cm}|M{1.5cm}|c|c|c|c|M{1.5cm}|}
+         \hline
+         \textbf{Model} & \textbf{Training Loss} & \textbf{Validation Loss} & \textbf{Evaluation Loss} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Confusion Matrix} \\
+         \hline
+         \cellcolor{red!40} \hyperref[tab: evalalgorithms]{1} & 0.033805 & 0.225089 & 0.141824 & 0.96 & 0.96 & 0.96 & 0.96 & See Table \ref{tab: cm_online_lstm_1} \\
+         \hline
+         \cellcolor{red!20} \hyperref[tab: evalalgorithms]{2} & 0.032614 & 0.105727 & 0.077589 & 0.98 & 0.97 & 0.97 & 0.97 & See Table \ref{tab: cm_online_lstm_2} \\
+         \hline
+         \cellcolor{red!20} \hyperref[tab: evalalgorithms]{3} & 0.110707 & 0.430041 & 0.357634 & 0.91 & 0.91 & 0.91 & 0.91 & See Table \ref{tab: cm_online_lstm_3} \\
+         \hline
+         \cellcolor{red!20} \hyperref[tab: evalalgorithms]{4} & 0.029944 & 0.090220 & 0.071301 & 0.97 & 0.97 & 0.97 & 0.97 & See Table \ref{tab: cm_online_lstm_4} \\
+         \hline
+         \cellcolor{red!20} \hyperref[tab: evalalgorithms]{5} & 0.025989 & 0.114388 & 0.115875 & 0.92 & 0.92 & 0.92 & 0.92 & See Table \ref{tab: cm_online_lstm_5} \\
+         \hline
+    \end{tabular}
+    \caption{Online LSTM Planner final training statistics}
+    \label{tab: online_lstm_final_tr_res}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 175 &   0 &  7 &   0 &   0 &   1 &   3 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   4 & 207 &  2 &   0 &   0 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   0 & 97 &   0 &   2 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &   0 &  0 & 202 &   1 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &  0 &   0 & 135 &   1 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   0 &  1 &   0 &   0 & 227 &   5 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &  0 &   1 &   1 &   0 & 160 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   7 &   0 &  1 &   0 &   0 &   3 &   5 & 164 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{1}}
+        \label{tab: cm_online_lstm_1}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 140 &  2 &   0 &   0 &   0 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   0 & 87 &   3 &   0 &   1 &   0 &   0 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &  0 & 340 &   1 &   0 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &  0 &   1 & 163 &   4 &   2 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &  0 &   0 &   1 & 265 &   1 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &  0 &   0 &   1 &   3 & 115 &   3 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   1 &  0 &   0 &   0 &   0 &   0 & 284 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   4 &  0 &   0 &   0 &   0 &   0 &   1 & 125 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{2}}
+        \label{tab: cm_online_lstm_2}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 145 &   1 &   0 &   0 &   1 &   1 &   0 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   8 & 130 &   4 &   1 &   1 &  15 &   1 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   3 & 168 &   3 &   0 &   1 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &   0 &   4 & 237 &   6 &   7 &   0 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &   0 &   7 & 189 &   4 &   0 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   1 &   1 &   3 &   2 &   6 & 222 &   2 &  11 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   1 &   1 &   0 &   4 & 164 &   5 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   8 &   4 &   0 &   1 &   0 &   2 &   7 & 220 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{3}}
+        \label{tab: cm_online_lstm_3}
+\end{table}
+
+\pagebreak
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 339 &   1 &   5 &   1 &   0 &   0 &   1 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   9 & 277 &   2 &   1 &   0 &   0 &   0 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   5 & 313 &   0 &   1 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   2 &   0 &   4 & 173 &   1 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &   2 &   0 & 114 &   2 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   0 &   0 &   0 &   1 & 184 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   0 &   0 &   1 &   0 & 162 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   0 &   6 &   2 &   0 &   0 &   2 &   1 & 206 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{4}}
+        \label{tab: cm_online_lstm_4}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 177 &   2 &   0 &   0 &   0 &   0 &   0 &   6 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   1 & 164 &   8 &   4 &   0 &   6 &   2 &   5 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   1 & 142 &   2 &   1 &   1 &  11 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &   0 &   2 & 195 &   1 &  11 &   1 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &   3 &   6 & 224 &   1 &   1 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   2 &   1 &   9 &   6 & 255 &   6 &   4 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   0 &   0 &   4 &   2 & 219 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   1 &   8 &   0 &   0 &   1 &   5 &   4 & 247 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{5}}
+        \label{tab: cm_online_lstm_5}
+\end{table}
+
+\pagebreak
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{1}}
+  \label{fig: train_olnine_lstm_1}
+\end{figure}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_block_map_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_block_map_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_block_map_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{2}}
+  \label{fig: train_olnine_lstm_2}
+\end{figure}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_house_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_house_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_house_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{3}}
+  \label{fig: train_olnine_lstm_3}
+\end{figure}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_block_map_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_block_map_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_block_map_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{4}}
+  \label{fig: train_olnine_lstm_4}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_block_map_10000_house_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_block_map_10000_house_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/trained_online_lstm/tile_by_tile_training_uniform_random_fill_10000_block_map_10000_house_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{5}}
+  \label{fig: train_olnine_lstm_5}
+\end{figure}
+
+\clearpage
+
+\section{CAE Online LSTM Planner Full Training Analysis}
+% algo 6
+
+\begin{figure}[h!]
+    \centerfloat
+    \includegraphics[scale=0.6]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_loss.png}
+    \caption{Training/Validation Loss for CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{6}) training loss (Train Loss: 0.000002, Validation Loss: 0.000005, Evaluation Loss: 0.000005)}
+    \label{fig: cae_6_train}
+\end{figure}
+
+\begin{figure}[h!]
+    \centerfloat
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_network_analysis_0.png}
+    \end{subfigure}
+    \\[-1.5cm]
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_network_analysis_1.png}
+    \end{subfigure}
+    
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{6}) network analysis}
+    \label{fig: cae_6_net_analysis}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_0_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_0_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_0_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_0_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{6}) first map from Figure \ref{fig: cae_6_net_analysis} feature maps}
+    \label{fig: cae_6_feature_maps_1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_1_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_1_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_1_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_uniform_random_fill_10000_model_feature_maps_map_1_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{6}) second map from Figure \ref{fig: cae_6_net_analysis} feature maps}
+    \label{fig: cae_6_feature_maps_2}
+\end{figure}
+
+% algo 7
+
+\begin{figure}
+    \centerfloat
+    \includegraphics[scale=0.6]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_loss.png}
+    \caption{Training/Validation Loss for CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{7}) (Train Loss: 0.000002, Validation Loss: 0.000005, Evaluation Loss: 0.000005)}
+    \label{fig: cae_7_train}
+\end{figure}
+
+\begin{figure}
+    \centerfloat
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_network_analysis_0.png}
+    \end{subfigure}
+    \\[-1.5cm]
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_network_analysis_1.png}
+    \end{subfigure}
+    
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{7}) network analysis}
+    \label{fig: cae_7_net_analysis}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{7}) first map from Figure \ref{fig: cae_7_net_analysis} feature maps}
+    \label{fig: cae_7_feature_maps_1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{7}) second map from Figure \ref{fig: cae_7_net_analysis} feature maps}
+    \label{fig: cae_7_feature_maps_2}
+\end{figure}
+
+% algo 8
+
+\begin{figure}
+    \centerfloat
+    \includegraphics[scale=0.6]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_loss.png}
+    \caption{Training/Validation Loss for CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{8}) (Train Loss: 0.000002, Validation Loss: 0.000007, Evaluation Loss: 0.000007)}
+    \label{fig: cae_8_train}
+\end{figure}
+
+\begin{figure}
+    \centerfloat
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_network_analysis_0.png}
+    \end{subfigure}
+    \\[-1.5cm]
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_network_analysis_1.png}
+    \end{subfigure}
+    
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{8}) network analysis}
+    \label{fig: cae_8_net_analysis}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_0_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_0_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_0_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_0_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{8}) first map from Figure \ref{fig: cae_8_net_analysis} feature maps}
+    \label{fig: cae_8_feature_maps_1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_1_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_1_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_1_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_house_10000_model_feature_maps_map_1_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: app_evalalgorithms]{8}) second map from Figure \ref{fig: cae_8_net_analysis} feature maps}
+    \label{fig: cae_8_feature_maps_2}
+\end{figure}
+
+\clearpage
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|c|M{1.3cm}|M{1.5cm}|M{1.5cm}|c|c|c|c|M{0.7cm}|}
+         \hline
+         \textbf{Model} & \textbf{Epochs} & \textbf{Training Loss} & \textbf{Validation Loss} & \textbf{Evaluation Loss} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{CM} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{6} & 34 & 0.042641 & 0.153901 & 0.178480 & 0.96 & 0.96 & 0.95 & 0.95 & See Table \ref{tab: cm_online_lstm_6} \\
+         \hline
+         \cellcolor{blue!40}\hyperref[tab: evalalgorithms]{7} & 25 & 0.031109 & 0.169480 & 0.145604 & 0.96 & 0.96  & 0.95 & 0.95 & See Table \ref{tab: cm_online_lstm_7} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{8} & 45 & 0.146206 & 0.393990 & 0.610441 & 0.87 & 0.88 & 0.88 & 0.88 & See Table \ref{tab: cm_online_lstm_8} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{9} & 37 & 0.019767 & 0.066242 & 0.097563 & 0.95 & 0.95 & 0.94 & 0.94 & See Table \ref{tab: cm_online_lstm_9} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{10} & 50 & 0.033152 & 0.118695 & 0.096448 & 0.92 & 0.92 & 0.92 & 0.92 & See Table \ref{tab: cm_online_lstm_10} \\
+         \hline
+    \end{tabular}
+    \caption{CAE Online LSTM Planner final training statistics (CM is short-hand for Confusion Matrix)}
+    \label{tab: cae_online_lstm_final_tr_res}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 217 &   2 &   0 &   1 &   0 &   0 &   0 &   2  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   2 & 243 &   5 &   3 &   0 &   0 &   0 &   2  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   2 & 109 &   3 &   1 &   0 &   0 &   0  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &   0 &   2 & 143 &   1 &   0 &   0 &   0  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &   1 &   1 & 174 &   1 &   3 &   1  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   0 &   0 &   1 &   0 & 235 &   2 &   3  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   7 &   1 &   0 &   0 &   1 &   1 & 121 &   5  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   2 &   3 &   0 &   0 &   0 &   0 &   0 & 313  \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{6}}
+        \label{tab: cm_online_lstm_6}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 294 &   1 &   0 &   0 &   4 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   2 & 106 &   3 &   1 &   0 &   0 &   0 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   0 & 235 &   0 &   0 &   0 &  11 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &   0 &   0 & 130 &   2 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   5 &   0 &   0 &   1 & 186 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   0 &   0 &   5 &   4 & 192 &   3 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   3 &   0 &   0 &   1 & 396 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   3 &   5 &   1 &   0 &   0 &   0 &  10 & 194 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{7}}
+        \label{tab: cm_online_lstm_7}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 148 &   2 &   0 &   0 &   0 &   1 &   0 &   4  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   1 & 255 &   3 &   4 &   0 &  10 &   2 &   6  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &  15 & 116 &   6 &   0 &   1 &  10 &   4  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &  16 &   4 & 222 &   6 &   9 &   4 &   5  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &  10 &   1 &   0 &   2 & 217 &   8 &   0 &   0  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   2 &   0 &  10 &   6 & 250 &   5 &  20  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   3 &   0 &   0 &   1 & 192 &   6  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   5 &  13 &   0 &   1 &   0 &   9 &   8 & 234  \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{8}}
+        \label{tab: cm_online_lstm_8}
+\end{table}
+
+\pagebreak
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 131 &   0 &   0 &   1 &   0 &   0 &   3 &   1  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   8 & 216 &   0 &   0 &   0 &   0 &   1 &   4  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   1 & 199 &   2 &   0 &   0 &   0 &   0  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   4 &   0 &   3 & 119 &   0 &   0 &   0 &   0  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &   0 &   0 & 100 &   0 &   0 &   0  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   0 &   0 &  10 &   0 & 125 &  12 &   1  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   0 &   0 &   0 &   5 & 283 &   3  \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   3 &   1 &   0 &   0 &   0 &   1 &  11 & 256  \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{9}}
+        \label{tab: cm_online_lstm_9}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 175 &   0 &   2 &   0 &   0 &   0 &   0 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   7 & 238 &   8 &   7 &   0 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   2 & 208 &   1 &   0 &   0 &   0 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   1 &   2 &   6 & 106 &   4 &   6 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   0 &   0 &   0 &   2 & 145 &   4 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   1 &   0 &   0 &   2 &   6 & 204 &   5 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   1 &   0 &   0 &   0 &   0 &   7 & 193 &   5 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   5 &   0 &   0 &   0 &   1 &  17 &  10 & 154 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: app_evalalgorithms]{10}}
+        \label{tab: cm_online_lstm_10}
+\end{table}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{6}}
+  \label{fig: train_olnine_lstm_6}
+\end{figure}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_block_map_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_block_map_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_block_map_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{7}}
+  \label{fig: train_olnine_lstm_7}
+\end{figure}
+
+\pagebreak
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_house_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_house_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_house_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{8}}
+  \label{fig: train_olnine_lstm_8}
+\end{figure}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{9}}
+  \label{fig: train_olnine_lstm_9}
+\end{figure}
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_house_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_house_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_house_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: app_evalalgorithms]{10}}
+  \label{fig: train_olnine_lstm_10}
+\end{figure}
+
+\pagebreak

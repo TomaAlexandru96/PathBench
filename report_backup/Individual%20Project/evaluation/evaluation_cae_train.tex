@@ -1,0 +1,292 @@
+\subsection{CAE Online LSTM Planner}
+
+We will begin by assessing the CAE model training performance by inspecting the training loss graph, the feature maps and the latent space variation. After that, we will study the LSTM model training performance.
+
+The CAE model includes extra training configuration options described in Table \ref{tab: cae_extra_config}.
+
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{3.5cm}|M{2.3cm}|M{2.7cm}|M{4.4cm}|}
+    	\hline
+    	\textbf{Key} & \textbf{Pipeline Section} & \textbf{Type} & \textbf{Description} \\
+    	\hline
+    	use\_mnist\_instead & Data Pre-processing & \texttt{bool} & Describes if the MNIST dataset should be used instead (used for performance comparison) \\
+    	\hline
+    	mnist\_size & Data Pre-processing & \texttt{Optional[int]} & Describes the size of the MNIST dataset (\texttt{None} for all) \\
+    	\hline
+    	with\_skip\_connections & Model Loading  & \texttt{int} & Describes if the architecture should use skip connections \\
+    	\hline
+    	in\_dim & Model Loading  & \texttt{List[int]} & The size of the input image ([width, height]) \\
+    	\hline
+    	latent\_dim & Model Loading & \texttt{int} & The size of the latent vector \\
+    	\hline
+    \end{tabular}
+    \caption{CAE Online LSTM Planner: CAE model extra training configuration options}
+    \label{tab: cae_extra_config}
+\end{table}
+
+\pagebreak
+
+The default CAE Encoder used in the LSTM network from the CAE Online LSTM Planner is the CAE model trained on the same dataset as the LSTM network. The intuition behind this choice is that each CAE will learn separate features depending on the type of map. However, we are going to inspect only the CAE associated with the CAE Online LSTM Planner which has been trained on the same training dataset as \cite{inoue2019robot} (Algorithm \hyperref[tab: evalalgorithms]{7}; block map). The training configuration for all CAEs is described in Table \ref{tab: eval_training_cae_online_lstm_cae}.
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|c|M{10.5cm}|}
+        \hline
+        \textbf{Key} & \textbf{Value} \\
+        \hline
+     	data\_features & [] \\
+     	\hline
+    	data\_labels & [] \\
+    	\hline
+    	data\_single\_features & [global\_map] \\
+    	\hline
+    	data\_single\_labels & [global\_map] \\
+    	\hline
+    	epochs & 100 \\
+    	\hline
+    	loss & \texttt{L1Loss} \\
+    	\hline
+    	optimizer & \texttt{lambda model: Adam(model.parameters(), lr=0.01)} \\
+    	\hline
+    	validation\_ratio & 0.2 \\
+    	\hline
+    	test\_ratio & 0.2 \\
+    	\hline
+    	save\_name & \texttt{caelstm\_section\_cae} \\
+    	\hline
+    	training\_data & [\texttt{uniform\_random\_fill\_10000}, \texttt{block\_map\_10000}, \texttt{house\_10000}] \\
+    	\hline
+    	batch\_size & 50 \\
+    	\hline
+    	use\_mnist\_instead & \texttt{False} \\
+    	\hline
+    	mnist\_size & \texttt{None} \\
+    	\hline
+    	with\_skip\_connections & \texttt{True} \\
+    	\hline
+    	in\_dim & [64, 64] \\
+    	\hline
+	    latent\_dim & 100 \\
+	    \hline
+    \end{tabular}
+    \caption{CAE Online LSTM Planner: CAE model training configuration}
+    \label{tab: eval_training_cae_online_lstm_cae}
+\end{table}
+
+\pagebreak
+
+% algo 7
+
+\begin{figure}
+    \centerfloat
+    \includegraphics[scale=0.6]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_loss.png}
+    \caption{Training/Validation Loss for CAE model (Algorithm \hyperref[tab: evalalgorithms]{7}) (Train Loss: 0.000002, Validation Loss: 0.000005, Evaluation Loss: 0.000005)}
+    \label{fig: gen_cae_7_train}
+\end{figure}
+
+\begin{figure}
+    \centerfloat
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_network_analysis_0.png}
+    \end{subfigure}
+    \\[-1.5cm]
+    \begin{subfigure}[b]{1.25\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_network_analysis_1.png}
+    \end{subfigure}
+    
+    \caption{CAE model (Algorithm \hyperref[tab: evalalgorithms]{7}) network analysis}
+    \label{fig: gen_cae_7_net_analysis}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.40\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_0_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: evalalgorithms]{7}) first map from Figure \ref{fig: gen_cae_7_net_analysis} feature maps}
+    \label{fig: gen_cae_7_feature_maps_1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_3.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_2.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_cae_training_block_map_10000_model_feature_maps_map_1_0_0.png}
+    \end{subfigure}
+    \\[-0.5cm]
+    \caption{CAE model (Algorithm \hyperref[tab: evalalgorithms]{7}) second map from Figure \ref{fig: gen_cae_7_net_analysis} feature maps}
+    \label{fig: gen_cae_7_feature_maps_2}
+\end{figure}
+
+\FloatBarrier
+
+The CAE has effectively 0 loss for all datasets (training, validation, evaluation) (See Figure \ref{fig: gen_cae_7_train}). The converted representation is identical to the original image, due to the skip connections which help pass the lost compressed data over to the decoder (See Figure \ref{fig: gen_cae_7_net_analysis}). However, if the losses are 0 it does not necessarily mean that the models have perfect performance. The model performance should be assessed based on the variability of the latent space and feature maps.
+
+The scope of presenting the structure of the CAE network for different maps is to assess if the network actually learns the patterns in the data. This is achieved by inspecting how much the latent space varies between same type maps with different layouts. 
+
+After analysing the CAE network (See Figures \ref{fig: gen_cae_7_net_analysis}, \ref{fig: gen_cae_7_feature_maps_1} and \ref{fig: gen_cae_7_feature_maps_2}), we can notice that the block map CAE has reasonable latent space variability which is a sign of good generalisation and efficient feature extraction. Appendix \ref{sec: app_evaluation} contains the full training analysis of the CAE Online LSTM Planner. By comparing the block map CAE against the uniform random fill and house CAEs, we have observed that the uniform random fill CAE has the worst performance due to the limited variability of the latent space. Intuitively, this happens because the uniform random fill map is very sparse and quite similar between other uniform random fill maps (even for the human eye is quite hard to spot the differences between this kind of maps), therefore less significant features can be extracted from the map. The other CAEs perform better because both types of maps (block and house maps) have a clear structure (block maps have block obstacles, house maps have rooms and doors), and thus, more significant features can be extracted from them.
+
+We can also notice that the majority of feature maps have redundant features (e.g. the diagonal of all feature maps is almost identical) which is a sign that the CAE might be too deep for the current maps (See Figures \ref{fig: gen_cae_7_feature_maps_1} and \ref{fig: gen_cae_7_feature_maps_2}). However, this does not affect our model performance as redundant data only increases the training process time.
+
+% start LSTM
+
+The LSTM model includes extra training configuration options described in Table \ref{tab: cae_lstm_section_extra_config}.
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{2.8cm}|M{1.8cm}|M{2.6cm}|M{6cm}|}
+    	\hline
+    	\textbf{Key} & \textbf{Pipeline Section} & \textbf{Type} & \textbf{Description} \\
+    	\hline
+    	custom\_encoder & Model Loading & \texttt{Optional[str]} & Normally, the CAE with the same training dataset as this model is used, but custom\_encoder specifies if another encoder should be used instead (when custom\_encoder is \texttt{None}, it uses the default behaviour) \\
+    	\hline
+    \end{tabular}
+    \caption{CAE Online LSTM Planner: LSTM model extra training configuration options}
+    \label{tab: cae_lstm_section_extra_config}
+\end{table}
+
+All LSTM models share the same training configuration (See Table \ref{tab: gen_eval_training_cae_online_lstm_lstm}), with the exception of the epochs number for reasons described below. The LSTM section follows a similar pattern to the training analysis of the Online LSTM Planner and is summarised in Table \ref{tab: gen_cae_online_lstm_final_tr_res}.
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|c|M{10.8cm}|}
+        \hline
+        \textbf{Key} & \textbf{Value} \\
+        \hline
+     	data\_features & [distance\_to\_goal\_normalized, raycast\_8\_normalized, direction\_to\_goal\_normalized, agent\_goal\_angle] \\
+     	\hline
+    	data\_labels & [next\_position\_index] \\
+    	\hline
+    	data\_single\_features & [] \\
+    	\hline
+    	data\_single\_labels & [] \\
+    	\hline
+    	epochs & See Table \ref{tab: cae_online_lstm_final_tr_res} \\
+    	\hline
+    	loss & \texttt{CrossEntropyLoss} \\
+    	\hline
+    	optimizer & \texttt{lambda model: Adam(model.parameters(), lr=0.01)} \\
+    	\hline
+    	validation\_ratio & 0.2 \\
+    	\hline
+    	test\_ratio & 0.2 \\
+    	\hline
+    	save\_name & \texttt{caelstm\_section\_lstm} \\
+    	\hline
+    	training\_data & See Table \ref{tab: evalalgorithms} \\
+    	\hline
+    	batch\_size & 50 \\
+    	\hline
+    	custom\_encoder & \texttt{None} \\ %caelstm\_section\_cae\_training\_uniform\_random\_fill\_10000\_
+    	%block\_map\_10000\_house\_10000\_model \\
+    	\hline
+    	num\_layers & 2 \\
+    	\hline
+    	lstm\_input\_size & 112 \\
+    	\hline
+    	lstm\_output\_size & 8 \\
+    	\hline
+    \end{tabular}
+    \caption{CAE Online LSTM Planner: LSTM model training configuration}
+    \label{tab: gen_eval_training_cae_online_lstm_lstm}
+\end{table}
+
+\pagebreak
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|c|M{1.3cm}|M{1.5cm}|M{1.5cm}|c|c|c|c|M{0.7cm}|}
+         \hline
+         \textbf{Model} & \textbf{Epochs} & \textbf{Training Loss} & \textbf{Validation Loss} & \textbf{Evaluation Loss} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{CM} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{6} & 34 & 0.042641 & 0.153901 & 0.178480 & 0.96 & 0.96 & 0.95 & 0.95 & See Table \ref{tab: cm_online_lstm_6} \\
+         \hline
+         \cellcolor{blue!40}\hyperref[tab: evalalgorithms]{7} & 25 & 0.031109 & 0.169480 & 0.145604 & 0.96 & 0.96  & 0.95 & 0.95 & See Table \ref{tab: gen_cm_online_lstm_7} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{8} & 45 & 0.146206 & 0.393990 & 0.610441 & 0.87 & 0.88 & 0.88 & 0.88 & See Table \ref{tab: cm_online_lstm_8} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{9} & 37 & 0.019767 & 0.066242 & 0.097563 & 0.95 & 0.95 & 0.94 & 0.94 & See Table \ref{tab: cm_online_lstm_9} \\
+         \hline
+         \cellcolor{blue!20}\hyperref[tab: evalalgorithms]{10} & 50 & 0.033152 & 0.118695 & 0.096448 & 0.92 & 0.92 & 0.92 & 0.92 & See Table \ref{tab: cm_online_lstm_10} \\
+         \hline
+    \end{tabular}
+    \caption{CAE Online LSTM Planner final training statistics (CM is short-hand for Confusion Matrix)}
+    \label{tab: gen_cae_online_lstm_final_tr_res}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+    \begin{tabular}{|c|c|cccccccc|} 
+    \hline & \multicolumn{9}{c|}{\textbf{Predicted}} \\ 
+    \hline
+    \multirow{9}{*}{\rotatebox{90}{\textbf{Actual}}} & \textbf{Action} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{1} & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{3} & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{5} & \multicolumn{1}{c|}{6} & 7  \\ 
+    \cline{2-10} & \multicolumn{1}{c|}{0} & 294 &   1 &   0 &   0 &   4 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{1} &   2 & 106 &   3 &   1 &   0 &   0 &   0 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{2} &   0 &   0 & 235 &   0 &   0 &   0 &  11 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{3} &   0 &   0 &   0 & 130 &   2 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{4} &   5 &   0 &   0 &   1 & 186 &   0 &   0 &   0 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{5} &   0 &   0 &   0 &   5 &   4 & 192 &   3 &   1 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{6} &   0 &   0 &   3 &   0 &   0 &   1 & 396 &   2 \\
+    \cline{2-2}  & \multicolumn{1}{c|}{7} &   3 &   5 &   1 &   0 &   0 &   0 &  10 & 194 \\
+    \hline
+    \end{tabular}
+    \caption{Confusion matrix for Algorithm \hyperref[tab: evalalgorithms]{7}}
+        \label{tab: gen_cm_online_lstm_7}
+\end{table}
+
+\pagebreak
+
+\begin{figure}[h!]
+  \centerfloat
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_block_map_10000_model_loss.png}
+     \caption{Training/Validation Loss}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_block_map_10000_model_training_stats.png}
+     \caption{Training Statistics}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.35\linewidth}
+    \includegraphics[width=\linewidth]{images/cae_online_lstm/caelstm_section_lstm_training_block_map_10000_model_validation_stats.png}
+     \caption{Validation Statistics}
+  \end{subfigure}
+  \caption{Training statistics for Algorithm \hyperref[tab: evalalgorithms]{7}}
+  \label{fig: gen_train_olnine_lstm_7}
+\end{figure}
+
+\FloatBarrier
+
+We can notice from the training graph (See Figure \ref{fig: gen_train_olnine_lstm_7}) that the LSTM section model is prone to over-fitting and has to be manually early stopped to the best validation loss score. We can also observe that the majority of the CAE Online LSTM Planner training statistics (See Table \ref{tab: gen_cae_online_lstm_final_tr_res}) have lower validation loss than the ones from (See Table \ref{tab: gen_online_lstm_final_tr_res}). However, most of the CAE Online LSTM Planner results have higher evaluation loss (which is also reflected in the accuracy metric) than the Online LSTM Planner results. This is a sign that the CAE Online LSTM Planner network has worse generalisation properties than the Online LSTM Planner network. But, the difference between them is really small and it does not has a significant impact on the overall performance of the network. The results from the confusion matrix (See Table \ref{tab: gen_cm_online_lstm_7}) is identical to the results from the Online LSTM Planner: all actions are well distributed and there is no preferred action.
+
+\input{evaluation/experiments.tex}

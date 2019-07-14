@@ -1,0 +1,130 @@
+rosrun lstm1 ros_path_finder.py 
+/home/drl/catkin_ws/src/lstm1/src/individual-project/src/math_util.py:1926: UserWarning: No module named '_transformations'
+  warnings.warn(str(err))
+pygame 1.9.6
+Hello from the pygame community. https://www.pygame.org/contribute.html
+[INFO] [1560457555.246580]: Starting LSTM
+[INFO] [1560457555.247284]: Starting Simulator
+Agent Position: Point(x=66, y=60)
+[2019-06-13 21:25:56] - Active torch device: cpu
+
+[2019-06-13 21:25:58] - Command list: [
+    up arrow - moves agent up (depends on agent speed) 
+    left arrow - moves agent left (depends on agent speed) 
+    down arrow - moves agent down (depends on agent speed) 
+    right arrow - moves agent right (depends on agent speed) 
+    c - compute trace 
+    s - stop trace animation 
+    r - resume trace animation 
+    m - toggle map between sparse and grid 
+    p - take screenshot 
+    mouse hover (DEBUG_LEVEL 2) - displays hovered cell coordinates 
+    mouse click - moves agent to mouse location (DEBUG_LEVEL 2 for coordinates display) 
+]
+
+
+[2019-06-13 21:26:28] - Algorithm <class 'algorithms.lstm.a_star_waypoint.WayPointNavigation'> started..
+[2019-06-13 21:26:36] - Started: request_update
+[2019-06-13 21:26:46] - Finished: request_update, execution time: 10.45 seconds
+[2019-06-13 21:26:46] - Started: request_update
+[2019-06-13 21:26:55] - Finished: request_update, execution time: 8.9 seconds
+[INFO] [1560457650.026978]: Sending waypoint: [-0.0749996  0.0750004]
+[INFO] [1560457656.225869]: Waypoint found: True
+[INFO] [1560457656.413065]: Sending waypoint: [0.0750004  0.22500041]
+[INFO] [1560457662.422321]: Waypoint found: True
+[INFO] [1560457662.930085]: Sending waypoint: [0.22500041 0.37500041]
+[INFO] [1560457666.080490]: Waypoint found: True
+[INFO] [1560457666.137794]: Sending waypoint: [0.37500041 0.52500042]
+[INFO] [1560457666.932806]: Waypoint found: True
+[INFO] [1560457667.480464]: Sending waypoint: [0.52500042 0.67500043]
+[INFO] [1560457668.492299]: Waypoint found: True
+[INFO] [1560457668.830803]: Sending waypoint: [0.67500043 0.82500043]
+[INFO] [1560457674.750901]: Waypoint found: True
+[INFO] [1560457674.845456]: Sending waypoint: [0.82500043 0.97500044]
+[INFO] [1560457679.232105]: Waypoint found: True
+[INFO] [1560457679.755125]: Sending waypoint: [0.97500044 0.97500044]
+[INFO] [1560457683.940608]: Waypoint found: True
+[INFO] [1560457684.327766]: Sending waypoint: [1.12500044 1.12500044]
+[INFO] [1560457688.628607]: Waypoint found: True
+[INFO] [1560457689.068446]: Sending waypoint: [1.27500045 1.27500045]
+[INFO] [1560457692.240869]: Waypoint found: True
+[INFO] [1560457692.540404]: Sending waypoint: [1.27500045 1.27500045]
+[INFO] [1560457692.546263]: Waypoint found: True
+10
+[2019-06-13 21:28:21] - Started: request_update
+[2019-06-13 21:28:35] - Finished: request_update, execution time: 13.93 seconds
+[2019-06-13 21:28:35] - Started: request_update
+[2019-06-13 21:28:47] - Finished: request_update, execution time: 11.96 seconds
+[INFO] [1560457763.881070]: Sending waypoint: [1.27500045 1.27500045]
+[INFO] [1560457764.832944]: Waypoint found: True
+[INFO] [1560457765.121279]: Sending waypoint: [1.27500045 1.42500046]
+[INFO] [1560457769.827945]: Waypoint found: True
+[INFO] [1560457769.974160]: Sending waypoint: [1.27500045 1.57500046]
+[INFO] [1560457770.524255]: Waypoint found: True
+[INFO] [1560457770.757038]: Sending waypoint: [1.27500045 1.72500047]
+[INFO] [1560457771.524453]: Waypoint found: True
+[INFO] [1560457771.642563]: Sending waypoint: [1.27500045 1.87500047]
+[INFO] [1560457773.127087]: Waypoint found: True
+[INFO] [1560457773.285821]: Sending waypoint: [1.27500045 2.02500048]
+[INFO] [1560457775.234154]: Waypoint found: True
+[INFO] [1560457775.485351]: Sending waypoint: [1.12500044 2.17500049]
+[INFO] [1560457778.924893]: Waypoint found: True
+[INFO] [1560457779.611607]: Sending waypoint: [1.12500044 2.32500049]
+[INFO] [1560457785.277917]: Waypoint found: True
+[INFO] [1560457785.392816]: Sending waypoint: [1.12500044 2.32500049]
+[INFO] [1560457785.659238]: Waypoint found: True
+8
+[2019-06-13 21:29:58] - Started: request_update
+[2019-06-13 21:30:07] - Finished: request_update, execution time: 9.09 seconds
+[2019-06-13 21:30:07] - Started: request_update
+[2019-06-13 21:30:17] - Finished: request_update, execution time: 9.73 seconds
+[INFO] [1560457860.895113]: Sending waypoint: [1.12500044 2.32500049]
+[INFO] [1560457863.117994]: Waypoint found: True
+[INFO] [1560457863.325973]: Sending waypoint: [0.97500044 2.17500049]
+[INFO] [1560457878.385396]: Waypoint found: False
+[INFO] [1560457878.538538]: Sending waypoint: [0.82500043 2.17500049]
+[INFO] [1560457889.419233]: Waypoint found: True
+[INFO] [1560457889.633027]: Sending waypoint: [0.67500043 2.17500049]
+[INFO] [1560457890.225243]: Waypoint found: True
+[INFO] [1560457890.605290]: Sending waypoint: [0.52500042 2.17500049]
+[INFO] [1560457892.914751]: Waypoint found: True
+[INFO] [1560457893.563534]: Sending waypoint: [0.37500041 2.17500049]
+[INFO] [1560457894.324306]: Waypoint found: True
+[INFO] [1560457895.069192]: Sending waypoint: [0.22500041 2.17500049]
+[INFO] [1560457910.716017]: Waypoint found: False
+[INFO] [1560457910.988069]: Sending waypoint: [0.0750004  2.32500049]
+[INFO] [1560457912.309297]: Waypoint found: True
+[INFO] [1560457913.102636]: Sending waypoint: [-0.0749996   2.32500049]
+[INFO] [1560457914.820904]: Waypoint found: True
+[INFO] [1560457915.319248]: Sending waypoint: [-0.0749996   2.32500049]
+[INFO] [1560457915.642012]: Waypoint found: True
+9
+[2019-06-13 21:32:06] - Started: request_update
+[2019-06-13 21:32:16] - Finished: request_update, execution time: 10.11 seconds
+[2019-06-13 21:32:16] - Started: request_update
+[2019-06-13 21:32:24] - Finished: request_update, execution time: 7.95 seconds
+[INFO] [1560457944.301357]: Sending waypoint: [-0.0749996   2.32500049]
+[INFO] [1560457960.030037]: Waypoint found: False
+[INFO] [1560457960.320066]: Sending waypoint: [-0.0749996   2.32500049]
+[INFO] [1560457961.219196]: Waypoint found: True
+[2019-06-13 21:32:41] - Original distance: 15.00
+[2019-06-13 21:32:41] - Occupancy percentage: 92.03%
+[2019-06-13 21:32:41] - Goal was FOUND
+[2019-06-13 21:32:41] - Total steps: 24
+[2019-06-13 21:32:41] - Total distance: 28.56
+[2019-06-13 21:32:41] - Total time: 365.252545 seconds
+[2019-06-13 21:32:41] - Last way point distance from goal: 0.00
+[2019-06-13 21:32:41] - Number of way points: 4
+[2019-06-13 21:32:41] - Average way point in-between distance: 9.04
+[2019-06-13 21:32:41] - Global kernel steps: 27
+[2019-06-13 21:32:41] - Global kernel distance: 28.56
+[2019-06-13 21:32:41] - Global kernel progress: 100.00%
+[2019-06-13 21:32:41] - Local kernel all search space (no fringe): 0.16%
+[2019-06-13 21:32:41] - Local kernel all fringe: 0.31%
+[2019-06-13 21:32:41] - Local kernel all total search space: 0.47%
+[2019-06-13 21:32:41] - Local kernel session average search space (no fringe): 0.04%
+[2019-06-13 21:32:41] - Local kernel session average fringe: 0.09%
+[2019-06-13 21:32:41] - Local kernel session average total search space: 0.13%
+[2019-06-13 21:32:41] - Combined Online LSTM kernels: ['caelstm_section_lstm_training_block_map_10000_model', 'caelstm_section_lstm_training_uniform_random_fill_10000_model', 'caelstm_section_lstm_training_house_10000_model', 'caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_house_10000_model', 'caelstm_section_lstm_training_uniform_random_fill_10000_block_map_10000_model', 'tile_by_tile_training_uniform_random_fill_10000_model', 'tile_by_tile_training_block_map_10000_model', 'tile_by_tile_training_house_10000_model', 'tile_by_tile_training_uniform_random_fill_10000_block_map_10000_model', 'tile_by_tile_training_uniform_random_fill_10000_block_map_10000_house_10000_model']
+[2019-06-13 21:32:41] - Kernel percentages: ['0.0%', '33.33%', '33.33%', '0.0%', '0.0%', '33.33%', '0.0%', '0.0%', '0.0%', '0.0%']
+

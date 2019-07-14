@@ -1,0 +1,73 @@
+\section{Analyser}
+
+The \textbf{Analyser} is used to assess and compare the performance of the path planners. This is achieved by making use of the \textbf{BasicTesting} component. When a new session is run through the \textbf{AlgorithmRunner}, if a \textbf{BasicTesting} component is attached to it, the session records a series of statistical measures depending on the type of testing (See Table \ref{tab: a_testing_tab}). The \textbf{BasicTesting} component is also linked to the simulator to enable visualisation testing. The key frame feature and synchronisation variable are tied to the \textbf{BasicTesting} component, which allows the user to enhance each key frame and define custom behaviour. Each \textbf{Algortihm} instance can create debugging views called \textbf{MapDisplay}s which can render custom information on the screen such as the the internal state of the \textbf{Algortihm} (e.g. Search Space, Total Fringe) (See Table \ref{tab: map_dsiplays}).
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|c|M{2.7cm}|M{8cm}|}
+         \hline
+         \textbf{Name} & \textbf{Supported Algorithms} & \textbf{Description} \\
+         \hline
+         Map & \texttt{All} & The actual map \\
+         \hline
+         Trace & \texttt{All} & The actual trace points \\
+         \hline
+         Map Obstacle Ratio & \texttt{All} & The percentage of obstacles from the map \\
+         \hline
+         Original Distance & \texttt{All} & The Euclidean distance from agent to goal at the beginning of the algorithm \\
+         \hline
+         Algorithm Type & \texttt{All} & The type of the algorithm that was run \\
+         \hline
+         Success Rate & \texttt{All} & The rate of success of finding a path from the agent to the goal \\
+         \hline
+         Steps & \texttt{All} & The total steps (movements) taken to reach the goal \\
+         \hline
+         Distance & \texttt{All} & The total distance taken to reach the goal. Steps is different from Distance as the diagonal movement cost is 1, but the diagonal movement cost is $\sqrt{2}$ \\
+         \hline
+         Time & \texttt{All} & The total time taken to reach the goal \\
+         \hline
+         Distance Left & \texttt{All} & In case of failure what is the Euclidean distance left from the agent to the goal \\
+         \hline
+         Search Space & \texttt{A*}, \texttt{Dijkstra} & The search space that was used to find the path (visited set without priority queue) \\
+         \hline
+         Total Fringe & \texttt{A*}, \texttt{Dijkstra} & The left priority queue size, after the goal was found \\
+         \hline
+         Total Search & \texttt{Wave-front}, \texttt{A*}, \texttt{Dijkstra} & Total Search = Search Space + Total Fringe \\
+         \hline
+    \end{tabular}
+    \caption{\textbf{Analyser} general statistic measures (more algorithm-specific metrics are provided in Chapter \ref {Evaluation} (\hyperref[Evaluation]{Evaluation}))}
+    \label{tab: a_testing_tab}
+\end{table}
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{2cm}|M{2.7cm}|M{9.2cm}|}
+         \hline
+         \textbf{Display Name} & \textbf{Supported Algorithms} & \textbf{Description} \\
+         \hline
+         Map & \texttt{All} & Displays the map in two modes: grid, normal \\
+         \hline
+         Entities & \texttt{All} & Displays the map entities: clear tiles (white), agent (red), goal (dark green), obstacles (black), extensions (light grey), trace (light green) \\
+         \hline
+         Step Grid (gradient) & \texttt{Wave-front} & Displays the step grid (white-dark blue gradient, min is white, max is dark blue) \\
+         \hline
+         Step Grid (numbers) & \texttt{Wave-front} & Displays the actual numbers from the step grid (simulator has to be launched in grid display mode) \\
+         \hline
+         Search Space and Total Fringe & \texttt{A*}, \texttt{Dijkstra} & Displays the visited set (dark grey) and the priority queue (fringe) (light blue-dark blue gradient, the darker the blue, the higher the priority) \\
+         \hline
+         Graph & \texttt{RRT} & Displays the graph edges (blue lines) and graph nodes (blue circles) \\
+         \hline
+    \end{tabular}
+    \caption{\textbf{Algorithm} information displays (more algorithm-specific information displays are provided in Chapter \ref {Evaluation} (\hyperref[Evaluation]{Evaluation}))}
+    \label{tab: map_dsiplays}
+\end{table}
+
+Instead of manually running a \textbf{Simulator} instance to assess an \textbf{Algorithm}, the \textbf{Analyser} has an extensive algorithmic analysis procedure split into two parts: simple analysis and complex analysis. We also provide a training dataset analysis routine for inspecting the generated maps.
+
+\textbf{Simple Analysis.} $n$ (usually 10) map samples are picked from each generated map type, and $m$ algorithms are assessed on them. The results are averaged and printed.
+
+\textbf{Complex Analysis.} $n$ maps are selected (generated or hand-made), and all $m$ algorithms are run on each map $x$ (usually 50) times with random agent and goal positions. As in the simple analysis stage, the results are averaged and reported. In the end, all $n \times x$ results are averaged and reported.
+
+\textbf{Training Dataset Analysis.} A training set analyser procedure is provided to inspect the training datasets by using the basic metrics defined in Table \ref{tab: a_testing_tab} (e.g. Original Distance, Success Rate, Map Obstacle Ratio).
+
+All printing from the three sections is saved in log files in the \textbf{Resources} directory. In order to view and interpret the results in a friendlier format, the results are tabulated (a latex table generator helper function is used to transfer the results from the log to the report). 

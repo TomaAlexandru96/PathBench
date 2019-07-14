@@ -1,0 +1,10 @@
+@inbook{inbook,
+author = {Bianchi, Filippo Maria and Maiorino, Enrico and Kampffmeyer, Michael and Rizzi, Antonello and Jenssen, Robert},
+year = {2017},
+month = {11},
+pages = {23-29},
+title = {Recurrent Neural Network Architectures},
+isbn = {978-3-319-70337-4},
+journal = {SpringerBriefs in Computer Science},
+doi = {10.1007/978-3-319-70338-1_3}
+}

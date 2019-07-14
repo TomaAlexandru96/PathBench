@@ -1,0 +1,161 @@
+\documentclass[a4paper, twoside]{report}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+%% own packages
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{booktabs}
+\usepackage[titletoc]{appendix}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{placeins}
+\usepackage{rotating}
+\usepackage{pifont}
+\usepackage{array}
+\usepackage{mdframed}
+\usepackage{lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage[many]{tcolorbox}
+\usepackage{varwidth}
+\usepackage{cleveref}
+\usepackage{colortbl}
+\usepackage{array}
+%\usepackage{breqn}
+
+%% own settings
+% article
+\setlength{\parindent}{0pt}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+% remove Chapter number from header name
+%\titleformat{\chapter}[display]
+%  {\normalfont\bfseries}{}{0pt}{\Huge}
+
+\setlist{nosep}
+\setlist{nolistsep}
+\setlist{topsep=-5px}
+
+\def \hfillx {\hspace*{-\textwidth} \hfill}
+
+\makeatletter
+\newcommand*{\centerfloat}{%
+  \parindent \z@
+  \leftskip \z@ \@plus 1fil \@minus \textwidth
+  \rightskip\leftskip
+  \parfillskip \z@skip}
+\makeatother
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+\newenvironment{tight_enumerate}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+}{\end{enumerate}}
+
+% math
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\argmax}[2]{\underset{#1}{\arg \max} \hspace{0.1cm} #2}
+\newcommand{\argmin}[2]{\underset{#1}{\arg \min} \hspace{0.1cm} #2}
+
+\newmdtheoremenv{theo}{Theorem}
+\newmdtheoremenv{proof}{Proof}
+
+% Theo
+\tcbuselibrary{theorems}
+\newtcbtheorem[number within=chapter, crefname={theorem}{theorems},Crefname={Theorem}{Theorems}]{Theo}{Theorem}%
+%
+{enhanced, frame empty, interior empty, arc=0mm,
+coltitle=black, fonttitle=\bfseries, colbacktitle=white,
+borderline={0.5mm}{0mm}{},%
+attach boxed title to top center={yshift=\dimexpr-\tcboxedtitleheight/2},
+boxed title style={boxrule=-1pt},varwidth boxed title,
+fontupper=\itshape, }{Th}
+
+\newtcbtheorem[no counter, crefname={proof}{Proofs},Crefname={Proof}{Proofs}]{Proof}{Proof}%
+%
+{enhanced, frame empty, interior empty, arc=0mm,
+coltitle=black, fonttitle=\bfseries, colbacktitle=white,
+borderline={0.5mm}{0mm}{},%
+attach boxed title to top center={yshift=\dimexpr-\tcboxedtitleheight/2},
+boxed title style={boxrule=-1pt},varwidth boxed title,
+fontupper=\itshape, }{Pf}
+
+\title{Global Way-point LSTM Planner: An Online Machine Learning Solution for Robotic Path Planning}
+\author{Alexandru Iosif Toma}
+% Update supervisor and other title stuff in title/title.tex
+
+\begin{document}
+\input{title/title.tex}
+
+\newpage
+\mbox{}
+\newpage
+
+\begin{abstract}
+
+%The path planning problem has essential applications in physical autonomous systems, such as robots and self-driving cars. 
+Path planners have indispensable applications in physical autonomous systems such as robots and self-driving cars, in which human intervention is not desirable: bomb defusing, search and rescue, large scale manufacturing, warehouse management and many more. However, some of the classic solutions satisfy only a subset of the real-world application requirements imposed by hardware limitations. The work from this report shows that by adopting a hybrid approach between classic solutions and Machine Learning methods, we can develop a path planning solution that has support for partial knowledge environments while theoretically satisfying the real-world constraints. We create a platform for testing and developing the proposed solution while offering support for \textit{ROS}, a defacto in robotic systems. We theoretically and empirically assess the performance of the proposed solution against the well-known pathfinding solution, A*. We prove that the proposed solution achieves theoretically lower average case time and space complexity and significantly reduces the memory load compared to A*. Moreover, we show that the proposed solution is robust to unknown environments by evaluating it on real-world occupancy grid maps. Lastly, we run the proposed solution on a real-world robot and show that it can find a reasonable path in partial knowledge environments in which offline solutions such as A* cannot.
+
+%The work from this report showcases a new hybrid pathfinding algorithm between classic solutions and ML methods, the Global Way-point LSTM Planner.
+
+%
+
+\end{abstract}
+
+\renewcommand{\abstractname}{Acknowledgements}
+\begin{abstract}
+
+I would like to thank my supervisor, Sajad Saeedi for offering continuous support and invaluable advice in regards to the project. I would like to thank my co-supervisor, Ronald Clark for motivating me to pursue different objectives. I would like to thank my second marker, Andrew Davison for inspiring me to address real-world robotic applications in the Interim Report. I would like to thank the Percepbot team for offering me the robot hardware for the real-world evaluation. I would like to thank my friends, Alexandru Dan and Andrei Isaila for proof-reading my report. Lastly, I would like to thank my parents and all my friends for their emotional support during my university years.
+
+\end{abstract}
+
+{
+  \hypersetup{hidelinks}
+  \tableofcontents
+}
+%\listoffigures %85
+%\listoftables  %53
+
+\setlength{\parskip}{\baselineskip}
+\input{introduction/introduction.tex}
+\input{literature_review/literature_review.tex}
+\input{background/background.tex}
+\input{simulator/simulator.tex}
+\input{methods/methods.tex}
+\input{evaluation/evaluation.tex}
+\input{conclusion/conclusion.tex}
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{ieeetr}
+\bibliography{bibs/sample}
+
+\input{appendix/appendix.tex}
+
+\end{document}

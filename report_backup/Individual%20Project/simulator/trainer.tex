@@ -1,0 +1,52 @@
+\section{Trainer}
+
+The training pipeline is composed of: data pre-processing, data splitting, training, evaluation, results display and pipeline end. All ML models must inherit from the \textbf{MLModel} class. The model is passed through the pipeline together with a configuration file (\texttt{Dict[str, Any]}) which describes the training process (See Table \ref{tab: pipeline_config} for general configuration hyper-parameters). Each model can define extensions for all pipeline sections and extra configuration parameters. 
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{3.2cm}|M{2.3cm}|M{3.3cm}|M{4.4cm}|}
+         \hline
+         \textbf{Key} & \textbf{Pipeline Section} & \textbf{Type} & \textbf{Description} \\
+         \hline
+         data\_features & Data Pre-processing & \texttt{List[str]} & Which sequential features should be picked from training data \\
+         \hline
+         data\_labels & Data Pre-processing & \texttt{List[str]} & Which sequential labels should be picked from training data \\
+         \hline
+         data\_single\_features & Data Pre-processing & \texttt{List[str]} & Which single features should be picked from training data \\
+         \hline
+         data\_single\_labels & Data Pre-processing & \texttt{List[str]} & Which single labels should be picked from training data \\
+         \hline
+         training\_data & Data Pre-processing & \texttt{List[str]} & Which training data files should be loaded and feature/label picked\\
+         \hline
+         validation\_ratio & Data Splitting & \texttt{float} & How much validation data should be reserved from data \\
+         \hline
+         test\_ratio & Data splitting & \texttt{float} & How much evaluation data should be reserved from data \\
+         \hline
+         epochs & Training & \texttt{int} & How many times should data be passed during training\\
+         \hline
+         batch\_size & Training & \texttt{int} & Defines the batch size for each epoch \\
+         \hline
+         loss & Training & \texttt{Callable[[Tensor, Tensor], Tensor]} & Describes the loss function: Arguments(model output, label), Returns(loss value) \\
+         \hline
+         optimizer & Training & \texttt{Callable[[MLModel], Optimizer]} & Describes the optimizer that should be used: Arguments(model itself), Returns(optimizer) \\
+         \hline
+         save\_name & Pipeline End & \texttt{str} & The model save name \\
+         \hline
+    \end{tabular}
+    \caption{Training pipeline basic configuration (more algorithm-specific training configurations are provided in Chapter \ref {Evaluation} (\hyperref[Evaluation]{Evaluation}))}
+    \label{tab: pipeline_config}
+\end{table}
+
+\textbf{Data Pre-processing.} Data is loaded from the specified training sets, and only the features and labels used throughout the model are picked from the training set and converted to a \textit{pytorch} \textbf{Dataset} (in total there can be four datasets: one feature sequence, one single feature tensor, one label sequence and one single label tensor). Sequential data is wrapped into a \textbf{PackedDataset} which sorts the input in reverse order of its sequence length (max length first, min length last). The data is packed into a \textit{pytorch} \textbf{PackedSequence} object using the \texttt{pack\_sequence} function from \textit{pytorch}. The \texttt{pack\_sequence} function only accepts sorted sequences (i.e. the input should be an upper triangular matrix) in order to increase the speed of an LSTM forward pass. The \textbf{PackedDataset} class saves the sequence itself, the lengths and the sorting permutation. If both sequence and single features are available the single feature tensor is sorted as well according to the permutation used in \textbf{PackedDataset} and wrapped into a \textbf{TensorDataset}. Both datasets are returned as a \textbf{CombinedSubsets} object. The resulting \textbf{Dataset} is cached, because data pre-processing takes a long time and consumes a lot of memory (for 30000 samples, over 16 GB of RAM are needed).
+
+\textbf{Data Splitting.} The pre-processed data is shuffled and split into three categories: training, validation and testing (usually 60\%, 20\%, 20\%) according to the Holdout method. The \textbf{CombinedSubsets} object is used to couple the feature dataset and label dataset of the same category into a single dataset. Then, all data is wrapped into its \textbf{DataLoader} object with the same batch size as the training configuration (usually 50).
+
+\textbf{Training.} The training process puts the model into training mode and takes the training \textbf{DataLoader} and validation \textbf{DataLoader} and feeds them through the model $n$ times, where $n$ is the number of specified epochs. The training mode allows the gradients to be updated and at each new epoch, the optimiser sets all gradients to 0. Each model has to extend a special \texttt{batch\_start} hook function which is called on each new batch. The \texttt{batch\_start} function is responsible for passing the data through the network and returning the loss result. The trainer takes the loss result and applies a backward pass by calling the \texttt{.backward()} method from the loss. Afterwards, the optimiser is stepped, and the weights of the model are updated. The statistics, such as the loss over time, for the training and validation sets are logged by two \textbf{EvaluationResults} objects (one for training and one for validation) which are returned to the pipeline. The \textbf{EvaluationResults} class contains several hook functions which are called through the training process at their appropriate times: \texttt{start}, \texttt{epoch\_start}, \texttt{epoch\_finish}, \texttt{batch\_start}, \texttt{batch\_finish}, \texttt{finish}. At each epoch end, the \textbf{EvaluationResults} object prints the latest results.
+
+\textbf{Evaluation.} The evaluation process puts the model into evaluation mode and has a similar structure to the training process. The evaluation mode does not allow gradients to update. The testing dataset is passed only once through the model and an \textbf{EvaluationResults} object containing the final model statistics is returned to the pipeline.
+
+\textbf{Results Display.} This procedure displays the final results from the three \textbf{EvaluationResults} objects (training, validation, testing) and final statistics such as the model loss are printed. The training and validation loss logs are displayed as a \textit{matplotlib} \cite{Hunter:2007} figure. This method can be easily extended to provide more insight into the network architecture (e.g. the \textbf{CAE} model displays a plot which contains the original image, the reconstructed version, the latent space snapshot and the resulting feature maps).
+
+\textbf{Pipeline End.} At the end, the model is saved by serialising the model \texttt{.state\_dict()}, the model configuration, the plots from results display process and the full printing log into a \textbf{ModelSudir} under \textbf{ModelDir}. The save name is formated according to the following convention: \texttt{\{config save\_name\}\_\{config training\_data\}\_model}.
+
+%\newpage

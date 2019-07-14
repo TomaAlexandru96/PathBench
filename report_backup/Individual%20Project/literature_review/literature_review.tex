@@ -1,0 +1,21 @@
+\chapter{Literature Review} \label{LiteratureReview}
+We are going to divide the classic algorithms into four sections following the model from \cite{gonzalez2016review}: \hyperref[A. Graph search planners]{Graph Search Planners} (Section \ref{A. Graph search planners}), \hyperref[B. Sampling based planners]{Sampling Based Planners} (Section \ref{B. Sampling based planners}), \hyperref[C. Interpolating curve planners]{Interpolating Curve Planners} (Section \ref{C. Interpolating curve planners}), \hyperref[D. Numerical optimization approaches]{Numerical Optimization Approaches} (Section \ref{D. Numerical optimization approaches}).
+%\begin{enumerate}[label=\Alph*.]
+%    \item \hyperref[A. Graph search planners]{Graph search planners}
+%    \item \hyperref[B. Sampling based planners]{Sampling based planners}
+%    \item \hyperref[C. Interpolating curve planners]{Interpolating curve planners}
+%    \item \hyperref[D. Numerical optimization approaches]{Numerical optimization approaches}.
+%\end{enumerate}
+
+When discussing each algorithm, we are going to state how it solves the problem, how it is implemented, optimality conditions, worst case time and space complexity analysis and some of the advantages and disadvantages.
+
+%When discussing about each algorithm we are going to describe each solution by stating how it solves the problem and state some of the advantages or disadvantages. %if it is an efficient solution (optimality, energy efficiency, computational cost). %At the end of the \hyperref[LiteratureReview]{Literature Review} section we are going to compare the performance of all algorithms.
+
+However, before starting, let us quickly formalise the pathfinding problem so that we will have a standard notation throughout the review. We have an agent $A$ that wants to get to a goal $G$ and a set of obstacles $Os$ which the agent tries to avoid. Each of the entities belongs to a map $M=(A, Os, G)$. The purpose of the algorithm is to produce a trace, denoted by $T$, which represents the history of the agent moves from the initial agent position to the goal position. The agent can move one step at a time to a position that is valid within the map (not out of bounds or not colliding with any obstacles). The goal is reached by the agent only when the agent position matches the goal position exactly. Furthermore, we are going to assume that the environment is static and fully discovered (the algorithm does not need to explore the map while searching for a solution).
+
+As a general rule, when we inspect the map figures, the entities will be represented by circles or squares. The colour convention will be the following: the agent is red, the initial agent position is dark red, obstacles are black, the goal is dark green (or magenta in some maps where the goal is not noticeable), the trace is light green, and the clear path is white. All map figures have been generated using the simulator from \hyperref[Simulation Platform]{PathBench} (Section \ref{Simulation Platform}).
+
+\input{literature_review/graph_based_planners.tex}
+\input{literature_review/sampling_based_planners.tex}
+\input{literature_review/interpolation_curve_planners.tex}
+\input{literature_review/numerical_optimization_approaches.tex}

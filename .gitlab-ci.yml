@@ -1,0 +1,19 @@
+stages:
+  - build
+
+unit_tests:
+  stage: build
+  tags:
+    - testing
+  script:
+    - PYTHONPATH="$(pwd)"/src python3 tests/run_tests.py
+
+coverage:
+  stage: build
+  tags:
+    - testing
+  script:
+    - PYTHONPATH="$(pwd)"/src coverage run tests/run_tests.py
+    - coverage report -m
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+

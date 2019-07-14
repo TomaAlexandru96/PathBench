@@ -1,0 +1,105 @@
+[2019-07-07 18:25:27] - Starting holdout training: {
+	data_features: ['raycast_8_normalized', 'distance_to_goal_normalized', 'direction_to_goal_normalized', 'agent_goal_angle'],
+	data_labels: ['next_position_index'],
+	data_single_features: ['global_map'],
+	data_single_labels: [],
+	epochs: 10,
+	loss: CrossEntropyLoss(),
+	optimizer: <function MPCAEModel.get_config.<locals>.<lambda> at 0x1239b4510>,
+	validation_ratio: 0.2,
+	test_ratio: 0.2,
+	save_name: mp_caelstm_section_mp,
+	training_data: ['training_uniform_random_fill_10000', 'training_block_map_10000', 'training_house_10000'],
+	batch_size: 50,
+	custom_encoder: None,
+	num_layers: 2,
+	lstm_input_size: 112,
+	lstm_output_size: 8,
+}
+
+[2019-07-07 18:25:27] - Starting data pre processing
+[2019-07-07 18:25:29] - Cache hit, training data loaded from cache
+[2019-07-07 18:25:29] - Finished data pre processing 
+
+[2019-07-07 18:25:29] - Training: <class 'algorithms.lstm.MP_CAE_tile_by_tile.MPCAEModel'>
+[2019-07-07 18:29:50] - Training 	 Epoch: 0 	 Loss: 0.033951 	 Accuracy 0.92 	 Precision: 0.76 	 Recall: 0.74 	 F1: 0.75
+[2019-07-07 18:30:22] - Validation 	 Epoch: 0 	 Loss: 0.102782 	 Accuracy 0.92 	 Precision: 0.72 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 18:34:06] - Training 	 Epoch: 1 	 Loss: 0.033683 	 Accuracy 0.92 	 Precision: 0.76 	 Recall: 0.74 	 F1: 0.74
+[2019-07-07 18:34:33] - Validation 	 Epoch: 1 	 Loss: 0.102197 	 Accuracy 0.92 	 Precision: 0.72 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 18:38:29] - Training 	 Epoch: 2 	 Loss: 0.033549 	 Accuracy 0.92 	 Precision: 0.76 	 Recall: 0.74 	 F1: 0.74
+[2019-07-07 18:39:04] - Validation 	 Epoch: 2 	 Loss: 0.103180 	 Accuracy 0.92 	 Precision: 0.71 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 18:43:04] - Training 	 Epoch: 3 	 Loss: 0.033479 	 Accuracy 0.92 	 Precision: 0.76 	 Recall: 0.74 	 F1: 0.74
+[2019-07-07 18:43:40] - Validation 	 Epoch: 3 	 Loss: 0.103177 	 Accuracy 0.92 	 Precision: 0.72 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 18:47:43] - Training 	 Epoch: 4 	 Loss: 0.033339 	 Accuracy 0.93 	 Precision: 0.76 	 Recall: 0.75 	 F1: 0.75
+[2019-07-07 18:48:08] - Validation 	 Epoch: 4 	 Loss: 0.104109 	 Accuracy 0.92 	 Precision: 0.72 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 18:51:36] - Training 	 Epoch: 5 	 Loss: 0.033220 	 Accuracy 0.93 	 Precision: 0.76 	 Recall: 0.75 	 F1: 0.75
+[2019-07-07 18:52:02] - Validation 	 Epoch: 5 	 Loss: 0.103285 	 Accuracy 0.92 	 Precision: 0.72 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 18:55:30] - Training 	 Epoch: 6 	 Loss: 0.033093 	 Accuracy 0.93 	 Precision: 0.77 	 Recall: 0.75 	 F1: 0.75
+[2019-07-07 18:55:54] - Validation 	 Epoch: 6 	 Loss: 0.102192 	 Accuracy 0.92 	 Precision: 0.72 	 Recall: 0.69 	 F1: 0.70
+
+[2019-07-07 18:59:20] - Training 	 Epoch: 7 	 Loss: 0.032999 	 Accuracy 0.93 	 Precision: 0.77 	 Recall: 0.75 	 F1: 0.75
+[2019-07-07 18:59:48] - Validation 	 Epoch: 7 	 Loss: 0.103067 	 Accuracy 0.91 	 Precision: 0.71 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 19:03:15] - Training 	 Epoch: 8 	 Loss: 0.032977 	 Accuracy 0.93 	 Precision: 0.76 	 Recall: 0.75 	 F1: 0.75
+[2019-07-07 19:03:37] - Validation 	 Epoch: 8 	 Loss: 0.101301 	 Accuracy 0.92 	 Precision: 0.71 	 Recall: 0.68 	 F1: 0.69
+
+[2019-07-07 19:07:06] - Training 	 Epoch: 9 	 Loss: 0.033013 	 Accuracy 0.93 	 Precision: 0.76 	 Recall: 0.75 	 F1: 0.75
+[2019-07-07 19:07:29] - Validation 	 Epoch: 9 	 Loss: 0.100848 	 Accuracy 0.92 	 Precision: 0.71 	 Recall: 0.69 	 F1: 0.70
+
+
+[2019-07-07 19:07:29] - Evaluation: <class 'algorithms.lstm.MP_CAE_tile_by_tile.MPCAEModel'>
+[2019-07-07 19:07:51] - Evaluation 	 Epoch: 0 	 Loss: 0.123721 	 Accuracy 0.91 	 Precision: 0.71 	 Recall: 0.71 	 F1: 0.71
+
+[2019-07-07 19:07:51] - Saved model as mp_caelstm_section_mp_training_uniform_random_fill_10000_block_map_10000_house_10000_model
+[2019-07-07 19:07:51] - Model: MPCAEModel(
+  (_normalisation_layer1): BatchNorm1d(112, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (_fc_core): Linear(in_features=112, out_features=8, bias=True)
+  (_normalisation_layer2): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (_fc): Linear(in_features=8, out_features=8, bias=True)
+  (_MPCAEModel__encoder): CAE(
+    (encoder): CAEEncoder(
+      (conv1): Conv2d(1, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv3): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn3): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv4): Conv2d(16, 8, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (bn4): BatchNorm2d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (latent_linear): Linear(in_features=128, out_features=100, bias=True)
+      (bn_latent): BatchNorm1d(100, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (decoder): CAEDecoder(
+      (latent_linear): Linear(in_features=100, out_features=128, bias=True)
+      (bn_latent): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (deconv1): ConvTranspose2d(8, 16, kernel_size=(2, 2), stride=(2, 2))
+      (bn1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (deconv2): ConvTranspose2d(16, 32, kernel_size=(2, 2), stride=(2, 2))
+      (bn2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (deconv3): ConvTranspose2d(32, 64, kernel_size=(2, 2), stride=(2, 2))
+      (bn3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (deconv4): ConvTranspose2d(64, 1, kernel_size=(2, 2), stride=(2, 2))
+      (bn4): BatchNorm2d(1, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+)
+[2019-07-07 19:07:51] - Model loss: 0.1237211748957634
+[2019-07-07 19:07:51] - Model accuracy: 0.9061666666666667
+[2019-07-07 19:07:51] - Model precision: 0.7118792459361052
+[2019-07-07 19:07:51] - Model recall: 0.7085992955241485
+[2019-07-07 19:07:51] - Model f1: 0.7081658969732717
+[2019-07-07 19:07:51] - Model confusion matrix: 
+[[4432   10    8    3    1    0    4    6]
+ [  23  105   28   11    0    1    0    5]
+ [   1   30  127   15    0    0    0    2]
+ [   0    5   32  140   15    6    0    0]
+ [   0    0    0   11  151    7    5    0]
+ [   1   10    0    1   33  151   40   12]
+ [   5   12    8    0    0   65  196   41]
+ [  41    7    1    0    0    7   50  135]]

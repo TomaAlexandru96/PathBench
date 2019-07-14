@@ -1,0 +1,225 @@
+\section{Experiments}
+
+In this section, we are going to run the \textbf{Analyser} pipeline which consists of two steps: simple and complex analysis. All experiments have been run on a MacBook Pro (Retina, 13-inch, Early 2015) (See Table \ref{tab: mac spec}). 
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+         \hline
+         \textbf{Name} & \textbf{Value} \\
+         \hline
+         Model & MacBook Pro (Retina, 13-inch, Early 2015) \\
+         \hline
+         GPU & Intel Iris Graphics 6100 1536 MB \\
+         \hline
+         CPU & 2.7 GHz Intel Core i5 \\
+         \hline
+         RAM & 8 GB 1867 MHz DDR3 \\
+         \hline
+         Disk & 256 GB (SSD) \\
+         \hline
+    \end{tabular}
+    \caption{Mac Book Pro specifications}
+    \label{tab: mac spec}
+\end{table}
+
+The LSTM Bagging Planner defines custom statistic measures described in Table \ref{tab: LSTM Bagging Planner testing_tab}.
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|c|c|M{8cm}|}
+         \hline
+         \textbf{Name} & \textbf{Supported Algorithms} & \textbf{Description} \\
+         \hline
+         Kernels & \texttt{LSTM Bagging Planner} & The name of all kernels in priority order \\
+         \hline
+         Pick Ratio & \texttt{LSTM Bagging Planner} & The "best behaving" kernel picked by the algorithm \\
+         \hline
+    \end{tabular}
+    \caption{LSTM Bagging Planner statistic measure}
+    \label{tab: LSTM Bagging Planner testing_tab}
+\end{table}
+
+The Global Way-point LSTM Planner defines custom display information (See Table \ref{tab: WayPointNavigation map_dsiplays}) and custom statistic measures (See Table \ref{tab: WayPointNavigation testing_tab}).
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{2cm}|M{2.7cm}|M{9cm}|}
+         \hline
+         \textbf{Display Name} & \textbf{Supported Algorithms} & \textbf{Description} \\
+         \hline
+         Way-points & \texttt{Global Way-point LSTM Planner} & Displays the global kernel suggested way-points with cyan squares/circles (depending if the map is displayed as a grid or not) \\
+         \hline
+         Total Search Space & \texttt{Global Way-point LSTM Planner} & Displays the Total Search Space of the local kernel as dark-grey entities (local kernel has to be from A* family) \\
+         \hline
+    \end{tabular}
+    \caption{Global Way-point LSTM Planner information displays}
+    \label{tab: WayPointNavigation map_dsiplays}
+\end{table}
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{2.7cm}|M{2.7cm}|M{8cm}|}
+         \hline
+         \textbf{Name} & \textbf{Supported Algorithms} & \textbf{Description} \\
+         \hline
+         GK Improvement & \texttt{Global Way-point LSTM Planner} & How much did the global kernel contributed to the final path. It is the local kernel travelled distance from the first way-point to the last way-point as a percentage from the total travelled distance \\
+         \hline
+         GK Steps & \texttt{Global Way-point LSTM Planner} & The total steps (movements) taken by the local kernel from the first way-point to the last way-point \\
+         \hline
+         GK Distance & \texttt{Global Way-point LSTM Planner} & The total local kernel travelled distance from the first way-point to the last way-point \\
+         \hline
+         GK Distance Left & \texttt{Global Way-point LSTM Planner} & The Euclidean distance between the last way-point and the goal  \\
+         \hline
+         GK Calls & \texttt{Global Way-point LSTM Planner} & The number of global kernel calls \\
+         \hline
+         WP & \texttt{Global Way-point LSTM Planner} & The number of suggested way-points (we use this over the GK Calls as they are correlated) \\
+         \hline
+         WP In-Between Distance & \texttt{Global Way-point LSTM Planner} & The average Euclidean distance between way-points \\
+         \hline
+         Pick Ratio & \texttt{Global Way-point LSTM Planner} & The kernel pick percentages from the global kernel (global kernel has to be an LSTM Bagging Planner) \\
+         \hline
+         Search Space & \texttt{Global Way-point LSTM Planner} & The search space (visited set) that was used to find the path (without priority queue) (local kernel has to be from A* family) \\
+         \hline
+         Total Fringe & \texttt{Global Way-point LSTM Planner} & The left priority queue size, after the goal was found (local kernel has to be from A* family) \\
+         \hline
+         Total Search & \texttt{Global Way-point LSTM Planner} & Total Search = Search Space + Total Fringe (local kernel has to be from A* family) \\
+         \hline
+         Session Search Space & \texttt{Global Way-point LSTM Planner} & The average session search space (visited set) that was used to find the path (without priority queue) (local kernel has to be from A* family) \\
+         \hline
+         Session Fringe & \texttt{Global Way-point LSTM Planner} & The average session left priority queue size, after the goal was found (local kernel has to be from A* family) \\
+         \hline
+         Session Search & \texttt{Global Way-point LSTM Planner} & Session Search = Session Search Space + Session Fringe (local kernel has to be from A* family) \\
+         \hline
+    \end{tabular}
+    \caption{Global Way-point LSTM Planner statistic measures}
+    \label{tab: WayPointNavigation testing_tab}
+\end{table}
+
+\FloatBarrier
+
+While analysing the algorithms, we will make use of the statistic measures defined in Tables \ref{tab: a_testing_tab}, \ref{tab: LSTM Bagging Planner testing_tab} and \ref{tab: WayPointNavigation testing_tab}. 
+
+%For convenience we have provided a pruned table which contains all used statistical measures (See table \ref{tab: eval_stats}).
+
+%\begin{table}[h!] 
+%\centerfloat
+%\begin{tabular}{|M{2.2cm}|M{3.3cm}|M{8cm}|}
+%\hline
+%         \textbf{Name} & \textbf{Supported %Algorithms} & \textbf{Description} \\
+%         \hline
+%         Map Obstacle Ratio & \texttt{All} & The %percentage of obstacles from the map \\
+%         \hline
+%         Original Distance & \texttt{All} & The %euclidean distance from agent to goal at %the beginning of the algorithm \\
+%         \hline
+%         Algorithm Type & \texttt{All} & The type of %the algorithm that was run \\
+%         \hline
+%         Success Rate & \texttt{All} & The rate of %success of finding a path from the agent to %the goal \\
+%         \hline
+%         Distance & \texttt{All} & The total %distance taken to reach the goal. Steps is %different from Distance as diagonal step is %considered 1, but diagonal distance is %considered $\sqrt{2}$ \\
+%         \hline
+%         Time & \texttt{All} & The total time taken to reach the goal \\
+%         \hline
+%         Distance Left & \texttt{All} & In case of %failure what is the euclidean distance left %from agent to goal \\
+%         \hline
+%         GK Improvement & \texttt{Way-Point %Navigation Planner} & How much did the %global kernel contributed to the final %path. It is the travelled distance by the %local kernel from the first way-point to %the last way-point as a percentage from the %total travelled distance \\
+%         \hline
+%         GK Distance & \texttt{Global Way-point LSTM Planner %Planner} & The total local kernel travelled %distance from the first way-point to the %last way-point \\
+%         \hline
+%         GK Distance Left & \texttt{Way-Point %Navigation Planner} & The euclidean %distance between the last way-point and the %goal  \\
+%         \hline
+%         WP & \texttt{Global Way-point LSTM Planner} %& The number of suggested way-points (we use this over the GK Calls as they are correlated) \\
+%         \hline
+%         WP In-Between Distance & \texttt{Way-Point %Navigation Planner} & The average euclidean %distance between way-points \\
+%         \hline
+%         Kernels & \texttt{LSTM Bagging Planner}, %\texttt{Global Way-point LSTM Planner} & The %name of all kernels from the global kernel %(global kernel has to be an LSTM Bagging %Planner) \\
+%         \hline
+%         Pick Ratio & \texttt{Global Way-point LSTM Planner %Planner} & The kernel pick percentages from %the global kernel (global kernel has to be %an LSTM Bagging Planner) \\
+%         \hline
+%         Fringe & \texttt{Global Way-point LSTM Planner %Planner} & The left priority queue size, %after the goal was found (local kernel has %to be from A* family) \\
+%         \hline
+%         Total Search & \texttt{Global Way-point LSTM Planner %Planner} & Total Search Space = Search %Space + Fringe (local kernel has to be from %A* family) \\
+%         \hline
+%         Session Fringe & \texttt{A*}, %\texttt{Dijkstra}, \texttt{Way-Point %Navigation Planner} & The average session %left priority queue size, after the goal %was found (local kernel has to be from A* %family) \\
+%         \hline
+%         Session Total Search & \texttt{A*}, %\texttt{Dijkstra}, \texttt{Way-Point %Navigation Planner} & Session Total Search %= Session Search Space + Session Fringe %(local kernel has to be from A* family) \\
+%         \hline
+%    \end{tabular}
+%\caption{\textbf{Used} evaluation statistic metrics}
+%\label{tab: eval_stats} 
+%\end{table}
+
+For each routine, we are going to produce four tables similar to Table \ref{tab: eval_simple_analysis}. The first table describes the general performance of all algorithms compared to A* (Algorithm \hyperref[tab: evalalgorithms]{0}). It should be mentioned that the time statistics for the LSTM Bagging Planner (Algorithm \hyperref[tab: evalalgorithms]{11}) and the proposed solution (Algorithm \hyperref[tab: evalalgorithms]{14}) are significantly higher due to the parallelism issue (algorithms were run sequentially). The second table refers to the pick percentages of the internal kernels (See Table \ref{tab: eval_lstm_bagging} for kernel reference) of the LSTM Bagging Planner (Algorithm \hyperref[tab: evalalgorithms]{11}) and the proposed solution (Algorithm \hyperref[tab: evalalgorithms]{14})  and is used to check the kernel pick distribution. The third table is associated with the Global Way-point LSTM Planner algorithms only and displays statistics which showcase the global kernel efficiency. For instance, if the WP In-Between Distance is higher, than we are more confident that the global kernel has proposed more efficient way-points. The final table displays the used memory space of the local kernel. We use four statistics: Total Search (the total local kernel memory (including fringe)), Total Fringe (the total local kernel fringe space), Session Search (the average local kernel session exploration (including fringe)) and Session Fringe (the average local kernel session fringe space).
+
+The simple analysis stage is run on 30 maps (10 of each type) and the results are averaged (See Table \ref{tab: eval_simple_analysis}). The complex analysis stage is run on 6 maps (3 generated and 3 hand crafted; See Figures \ref{fig: rep_Uniform Random Fill Map}, \ref{fig: rep_Block Map}, \ref{fig: rep_House Map}, \ref{fig: rep_Hand Crafted Map 1}, \ref{fig: rep_Hand Crafted Map 2} and \ref{fig: rep_Hand Crafted Map 3}). For each map we sample 50 random positions (agent and goal) and average the results of all 50 runs. At the end the overall results are reported in Table \ref{tab: eval_complex_analysis_overall}.
+
+As a frame of reference the comprehensive results from \cite{nicola2018lstm} are shown in Table \ref{tab: nicola_results}. The authors from \cite{nicola2018lstm} state that they have used 50 equally selected paths from 10 different maps for each environment type when evaluating their proposed solution. The authors from \cite{inoue2019robot} state that they have achieved over 98\% in 8 out of 10 environment maps. Moreover, the authors from \cite{inoue2019robot} state that the generalisation property to unknown environments has been checked and confirmed. The results showed that the planner from \cite{inoue2019robot} still has a high success rate in unknown maps, but path generation fails under environments which are significantly different from the trained environments. It should be mentioned that \cite{inoue2019robot} associates a fail with a path that has found the goal, but overlaps obstacles. This is because their solution is offline and the network returns the full generated path, which consequently might collide with other obstacles. Therefore, the path generation fail under unknown environments does not theoretically contradict the robustness to unknown environments (since a path to the goal has been found). However, we should emphasise that our evaluation methods and results refer only to completely successful paths (i.e. collision-free trajectories). Lastly, the authors from \cite{nicola2018lstm} use the same collision-free evaluation constraint and therefore, we can relate and make comparisons against their results.
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|M{1.4cm}|M{2.3cm}|M{1.3cm}|M{1.3cm}|c|M{1.8cm}|M{1.7cm}|}
+       \hline
+       \textbf{Planner} & \textbf{Maps} & \textbf{Nr. of Paths} & \textbf{Nr. of Maps} & \textbf{Success Rate} & \textbf{Average Time (s)} & \textbf{Average Length} \\
+       \hline
+       A* & Dragon Age & 50 & 10 & 100\% & $3.37 \cdot 10^{-4}$ & 45.82 \\
+       \hline
+       Online LSTM & Dragon Age & 50 & 10 & 68\% (I: -32\%) & $1.69 \cdot 10^{-3}$ & 53.39 (I:-16.52\%) \\
+       \hline
+       A* & Mazes with corridor 8 steps long & 50 & 10 & 100\% & $2.96 \cdot 10^{-4}$ & 50.90\\
+       \hline
+       Online LSTM & Mazes with corridor 8 steps long & 50 & 10 & 26\% (I: -74\%) & $1.98 \cdot 10^{-3}$ & 61.71 (-21.24\%) \\
+       \hline
+       A* & Random filled & 50 & 10 & 100\% & $2.84 \cdot 10^{-4}$ & 61.60 \\
+       \hline
+       Online LSTM & Random filled & 50 & 10 & 82\% (I: -18\%) & $2.04 \cdot 10^{-3}$ & 71.60 (I: -16.23\%) \\
+       \hline
+    \end{tabular}
+    \caption{\cite{nicola2018lstm} results (50 paths selected equally from 10 different maps for each environment type). The parenthesis value with prefix I: is the improvement rate against A*}
+    \label{tab: nicola_results}
+\end{table}
+
+\pagebreak
+
+\input{evaluation/simple_analysis_table.tex}
+\input{evaluation/complex_analysis_table_map_1.tex}
+\input{evaluation/complex_analysis_table_map_2.tex}
+\input{evaluation/complex_analysis_table_map_3.tex}
+\input{evaluation/complex_analysis_table_map_4.tex}
+\input{evaluation/complex_analysis_table_map_5.tex}
+\input{evaluation/complex_analysis_table_map_6.tex}
+\input{evaluation/complex_analysis_overall_table.tex}
+
+\FloatBarrier
+
+% As a frame of reference \cite{nicola2018lstm} states that they have achieved 68\% success rate on Dragon Age maps, 26\% success rate on mazes with corridor 8 steps long and 82\% success rate on random filled maps, \cite{inoue2019robot} states that they have achieved over 98\% in 8 our 10 environment maps.
+
+Lastly, Figure \ref{fig: comparison_a*_waypoint} contains more example runs of the Global Way-point LSTM Planner against A* which emphasise the memory/optimal distance trade-off.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_51.png}
+    \caption{Global Way-point LSTM Planner}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_44.png}
+    \caption{A*}
+  \end{subfigure}
+  \newline
+  \begin{subfigure}[b]{0.48\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_104.png}
+    \caption{Global Way-point LSTM Planner}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_105.png}
+    \caption{A*}
+  \end{subfigure}
+  \caption{Global Way-point LSTM Planner and A* examples which showcase the memory/optimal distance trade-off}
+  \label{fig: comparison_a*_waypoint}
+\end{figure}
+
+\pagebreak
+
+\input{evaluation/real_world_evaluation.tex}

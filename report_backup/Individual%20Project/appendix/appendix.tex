@@ -1,0 +1,204 @@
+%\appendix
+%\chapter{1}
+
+\begin{appendices}
+%\chapter{Simulator}
+\chapter{PathBench} \label{sec: app_env}
+
+\section{Infrastructure} \label{sec: infra}
+The \textbf{MainRunner} component is the main entry point of the platform and it coordinates all other sections. The \textbf{MainRunner} takes a master \textbf{Configuration} component as input which represents the main inflexion point of the platform. It describes which section (\textbf{Simulator}, \textbf{Generator}, \textbf{Trainer}, \textbf{Analyser}) should be used and how (The master \textbf{Configuration} fields can be seen in Tables \ref{tab: sim_master_config}, \ref{tab: generator_master_config} and \ref{tab: trainer_master_config}).
+
+The \textbf{Services} component is a bag of \textbf{Service} components which is injected into all platform classes in order to maintain global access to the core libraries\footnote{Design known as Dependency Injection or Strategy Pattern \cite{hannemann2002design}}. A \textbf{Service} component is created for most external libraries to encapsulate their APIs and provide useful helper functions\footnote{Design known as the Adapter Pattern \cite{hannemann2002design}}. Moreover, by making use of the Adapter Pattern we can easily switch third party libraries, if needed, and the code becomes more test friendly. Finnaly, the \textbf{Services} container can be mocked together with all its \textbf{Service} components, thus avoiding rendering, file writing and useless printing.
+
+The \textbf{Simulator} was build by following the Model-View-Controller (MVC) pattern \cite{krasner1988description}. The \textbf{Model} represents the logic part, the \textbf{View} renders the \textbf{Model} and the \textbf{Controller} handles the input from the keyboard and mouse, and calls the appropriate functions from the associated \textbf{Model}. The \textbf{EventManager} component is a communication service which allows the \textbf{Model} to update the \textbf{View} as there is no direct connection between them (from \textbf{Model} to \textbf{View}, the other way is).
+
+The \textbf{Debug} component is a printing service which augments printing messages with different decorators such as time-stamp and routes the messages to a specified IO stream or standard out. It also provides a range of debugging/printing modes: None (no information), Basic (only basic information), Low (somewhat verbose), Medium (quite verbose), High (all information).
+
+The \textbf{RenderingEngine} component is a wrapper around the \textit{pygame} library and all rendering is routed through it.
+
+The \textbf{Torch} service is not an actual wrapper around \textit{pytorch}, but instead it defines some constants such as the initial random seed and the training device (CPU/CUDA).
+
+The \textbf{Resources} service is the persistent storage system. It is a container of \textbf{Directory} components which represent an interface over the actual filesystem directories. It provides safe interaction with the filesystem and a range of utility directories: Cache (temporary storage used for speeding second runs), Screenshots, Maps (stores all user defined and generated maps), Images (stores images which can be converted to internal maps), Algorithms (stores trained machine learning models), Training Data (stores training data for machine learning models). The main serialisation tool is \textit{dill} which is a wrapper around \textit{pickle} with lambda serialisation capabilities, but custom serialisation is allowed such as tensor serialisation provided by \textit{pytorch} or image saving by \textit{pygame}.
+
+The \textbf{AlgorithmRunner} manages the algorithm session which contains the \textbf{Algorithm}, \textbf{BasicTesting} and \textbf{Map}. The \textbf{AlgorithmRunner} launches a separate daemon thread that is controlled by a condition variable. When writing an \textbf{Algorithm}, special key frames can be defined (e.g. when the trace is produced) to create animations. Key frames release the synchronisation variable for a brief period and then acquire it again, thus querying new rendering jobs.
+
+The \textbf{Utilities} section provides a series of helper methods and classes: \textbf{Maps} (holds in-memory user defined \textbf{Map} components), \textbf{Point}, \textbf{Size}, \textbf{Progress} (progress bar), \textbf{Timer}, \textbf{MapProcessing} (feature extractor used mainly in ML sections).
+
+\section{Master Configuration and User Commands}
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|M{2.45cm}|M{7cm}|}
+        \hline
+        \textbf{Configuration Field} & \textbf{Type} & \textbf{Description} \\
+        \hline
+        load\_simulator & \texttt{bool} & If the simulator should be loaded \\
+        \hline
+        clear\_cache & \texttt{bool} & If the cache should be deleted after the simulator is finished \\
+        \hline
+        simulator\_graphics & \texttt{bool} & If graphics should be used or not; evaluation is always done without graphics \\
+        \hline
+        simulator\_grid\_display & \texttt{bool} & The map can be visualised as a plain image or a grid; the window size is defined based on the choice \\
+        \hline
+        simulator\_initial\_map & \texttt{Map} & The map used in \textbf{AlgorithmRunner} service\\
+        \hline
+        simulator\_algorithm\_type & \texttt{Type[Algorithm]} & The algorithm type used in \textbf{AlgorithmRunner} service\\
+        \hline
+        simulator\_algorithm\_parameters & \texttt{Tuple[List[Any], Dict[str, Any]]} & The algorithm parametrs in the form of *args and **kwargs which are used in  \textbf{AlgorithmRunner} service\\
+        \hline
+        simulator\_testing\_type & \texttt{Type[BasicTesting]} & The testing type used in \textbf{AlgorithmRunner} service\\
+        \hline
+        simulator\_key\_frame\_speed & \texttt{int} & The refresh rate interval during each key frame; a value of 0 disables the key frames \\
+        \hline
+        simulator\_key\_frame\_skip & \texttt{int} & How many key frames are skipped at a time; used to speed up the animation when frames per second are low \\
+        \hline
+        simulator\_write\_debug\_level & \texttt{DebugLevel} & The debugging level (None, Basic, Low, Medium, High) \\
+        \hline
+    \end{tabular}
+    \caption{Simulator master \textbf{Configuration} fields}
+    \label{tab: sim_master_config}
+\end{table}
+
+\pagebreak
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|M{2cm}|M{6cm}|}
+        \hline
+        \textbf{Configuration Field} & \textbf{Type} & \textbf{Description} \\
+        \hline
+        generator & \texttt{bool} & If the generator should be loaded \\
+        \hline
+        generator\_gen\_type & \texttt{str} & Generation type; can choose between "uniform\_random\_fill", "block\_map" and "house" (See Figure \ref{fig: generated maps}) \\
+        \hline
+        generator\_nr\_of\_examples & \texttt{int} & How many maps should be generated; 0 does not trigger generation \\
+        \hline
+        generator\_labelling\_atlases & \texttt{List[str]} & Which \textbf{Map Atlas}es should be converted to training data\\
+        \hline
+        generator\_labelling\_features & \texttt{List[str]} & Which sequential features should be extracted for training conversion \\
+        \hline
+        generator\_labelling\_labels & \texttt{List[str]} & Which sequential labels should be extracted for training conversion \\
+        \hline
+        generator\_single\_labelling\_features & \texttt{List[str]} & Which single features should be extracted for training conversion \\
+        \hline
+        generator\_single\_labelling\_labels & \texttt{List[str]} & Which single labels should be extracted for training conversion \\
+        \hline
+        generator\_aug\_labelling\_features & \texttt{List[str]} & Which sequential features should be augmented for training data defined by generator\_labelling\_atlases \\
+        \hline
+        generator\_aug\_labelling\_labels & \texttt{List[str]} & Which sequential labels should be augmented for training data defined by generator\_labelling\_atlases \\
+        \hline
+        generator\_aug\_single\_labelling\_features & \texttt{List[str]} & Which single features should be augmented for training data defined by generator\_labelling\_atlases \\
+        \hline
+        generator\_aug\_single\_labelling\_labels & \texttt{List[str]} & Which single labels should be augmented for training data defined by generator\_labelling\_atlases \\
+        \hline
+        generator\_modify & \texttt{Callable[[Map], Map]} & Modifies the given map using the custom function \\
+        \hline
+    \end{tabular}
+    \caption{Generator master \textbf{Configuration} fields}
+    \label{tab: generator_master_config}
+\end{table}
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|M{2.2cm}|M{4.5cm}|}
+        \hline
+        \textbf{Configuration Field} & \textbf{Type} & \textbf{Description} \\
+        \hline
+        trainer & \texttt{bool} & If the trainer should be loaded \\
+        \hline
+        trainer\_model & \texttt{Type[MLModel]} & The model which will be trained \\
+        \hline
+        trainer\_custom\_config & \texttt{Dict[str, Any]} & If a custom configuration should augment the \textbf{MLModel} configuration \\
+        \hline
+        trainer\_pre\_process\_data\_only & \texttt{bool} & If the trainer should only pre-process data and save it; it does not overwrite cache\\
+        \hline
+        trainer\_bypass\_and\_replace\_pre\_processed\_cache & \texttt{bool} & If pre-processed data cache should be bypassed and re-computed \\
+        \hline
+    \end{tabular}
+    \caption{Trainer master \textbf{Configuration} fields}
+    \label{tab: trainer_master_config}
+\end{table}
+
+\begin{table}[h!]
+    \centerfloat
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Key} & \textbf{Action} \\
+        \hline
+        up arrow & moves agent up \\
+        \hline
+        left arrow & moves agent left \\
+        \hline
+        down arrow & moves agent down \\
+        \hline
+        right arrow & moves agent right \\
+        \hline
+        c & compute trace \\
+        \hline
+        s & stop trace animation (requires key frames) \\
+        \hline
+        r & resume trace animation (requires key frames) \\
+        \hline
+        m & toggle map between \textbf{SparseMap} and \textbf{DenseMap} \\
+        \hline
+        p & take map screenshot \\
+        \hline
+        mouse hover & reports hovered cell coordinates (requires at least Medium debugging level) \\
+        \hline
+        mouse left click & moves \textbf{Agent} to mouse location \\
+        \hline
+        mouse right click & moves \textbf{Goal} to mouse location \\
+        \hline
+    \end{tabular}
+    \caption{Simulator user commands}
+    \label{tab: sim_commands}
+\end{table}
+
+
+
+\chapter{Methods} \label{sec: app_methods}
+
+\section{Packing and Unpacking}
+
+Packing is used to speed up the forward pass through the LSTM layer and mask unused data (because data is given as a variable length sequence). By making use of packing, we can remove the need to pad the inputs with a special token in order to convert the variable size sequence into a constant size sequence. Moreover, if the pad token is not chosen correctly the network might learn from it and become biased towards one action (e.g. if the labelling pad token is 0, then the 0 action might get preferred over the other actions). When packing a batch sequence, all sequences have to be sorted in reverse order of the sequence length (largest sequence first). The packing is done by using the function \texttt{pack\_sequence} from \textit{pytorch} which returns a \texttt{PackedSequence} object. The \texttt{PackedSequence} transforms the data into a continuous 1D tensor by concatenating all batch tensors. The structure of the original data is still preserved into the \texttt{batch\_sizes} attribute. The whole packing procedure has complexity $\mathcal{O}(n\log(n))$ (sorting is $\mathcal{O}(n\log(n))$ and \texttt{pack\_sequence} is $\mathcal{O}(n)$, where $n$ is the batch size). The following code snippet showcases an example of the packing procedure:
+
+\begin{lstlisting}[language=Python]
+import torch
+from torch.nn.utils.rnn import pack_sequence, PackedSequence
+
+a = torch.Tensor([1, 2])
+b = torch.Tensor([3, 4, 5])
+c = torch.Tensor([6])
+seq = [a, b, c]
+seq.sort(key=lambda el: el.shape[0], reverse=True)
+packed_sequence: PackedSequence = pack_sequence(seq)
+
+# Output: PackedSequence(data=tensor([3., 1., 6., 4., 2., 5.]), 
+#                        batch_sizes=tensor([3, 2, 1]))
+\end{lstlisting}
+
+Unpacking represents the inverse operation of packing, which reconstructs the original data from a \texttt{PackedSequence} object. Normally the \texttt{pad\_packed\_sequence} function is used to reconstruct the data, but because we pack both input and output we can speed up unpacking by directly accessing the \texttt{.data} attribute from the \texttt{PackedSequence} object (if we had to feed the previous action as it was done in \cite{nicola2018lstm} we couldn't have used this optimisation as we needed the full reconstructed data). Unoptimised unpacking is $\mathcal{O}(n)$ and optimised unpacking is $\mathcal{O}(1)$ where $n$ is the batch size. The following code snippet showcases an example of the (un)optimised packing procedure:
+
+\begin{lstlisting}[language=Python]
+# clone previous code snippet
+from torch.nn.utils.rnn import pad_packed_sequence
+
+# unoptimised
+original_data, original_data_lengths = \\
+        pad_packed_sequence(packed_sequence, batch_first=True)
+
+# Output: (tensor([[3., 4., 5.],
+#                  [1., 2., 0.],
+#                  [6., 0., 0.]]), tensor([3, 2, 1]))
+
+# optimised
+data = packed_sequence.data
+# Output: tensor([3., 1., 6., 4., 2., 5.])
+\end{lstlisting}
+
+\input{appendix/eval_appendix.tex}
+
+\end{appendices}

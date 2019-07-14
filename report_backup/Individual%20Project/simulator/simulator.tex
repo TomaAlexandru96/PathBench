@@ -1,0 +1,161 @@
+\chapter{PathBench} \label{Simulation Platform}
+
+PathBench is a motion planning platform used to develop, assess, compare and visualise the performance and behaviour of the discussed algorithms. The platform is split into four main components: \textbf{Simulator}, \textbf{Generator}, \textbf{Trainer} and \textbf{Analyzer} joined by the infrastructure section. Additionally, the platform provides a \textit{ROS} real-time extension for interacting with a real-world robot through PathBench (See Figure \ref{fig: sim_platform}). The full architecture can be seen in Figure \ref{fig:sim_architecture}. 
+
+% the platform provides a \textit{ROS} real-time extension which integrates the \textit{gmapping} \textit{ROS} package (SLAM scan) into a dedicated internal map environment (\textbf{RosMap}) controlled by a master node (\textbf{Ros})
+
+\textbf{Notation.} We will use \textit{italic font} for libraries, \textbf{bold font} for classes and \texttt{typewriter font} for code snippets/file names/functions/variables. For types, we use the \textit{python} type hinting system (e.g. a list of integers is defined as \texttt{List[int]}).
+
+% \todo{Mention ROS extension and add ROS components in high overview}
+
+% The \textit{ROS} section provides compatibility with the \textit{ROS} library by integrating the \textit{gmapping} package (SLAM scan) into an internal map environment (\textbf{RosMap}). The \textbf{Ros} component represents the master node which controls the interactions between the robot and PathBench. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.5]{images/sim_high_overview.png}
+    \caption{PathBench structure high-overview. Arrows represent information flow/usage ($A \xleftarrow{gets/uses} B$). The Machine Learning section is responsible for training dataset generation and model training. The Environment section controls the interaction between the agent and the map, and supplies graphical visualisation. The \textit{ROS} section provides support for real-time interaction with a real physical robot. The Evaluation section provides benchmarking methods for algorithm assessment}
+    \label{fig: sim_platform}
+\end{figure}
+
+\textbf{Infrastructure.} This component is responsible for linking all other components and provide general service libraries and utilities (for a comprehensive explanation of the infrastructure sub-components, please refer to Appendix \ref{sec: infra}).
+
+\pagebreak
+
+\textbf{Simulator.} This section is responsible for environment interactions and algorithm visualisation. It provides custom collision detection systems and a graphics framework for rendering the internal state of the algorithms.
+
+\textbf{Generator.} This section is responsible for generating and labelling the training data used to train the Machine Learning models.
+
+\textbf{Trainer.} This section is a class wrapper over the third party Machine Learning libraries. It provides a generic training pipeline based on the holdout method and standardised access to the training data.
+
+\textbf{Analyzer.} The final section manages the statistical measures used in the practical assessment of the algorithms. Custom metrics can be defined as well as graphical displays for visual interpretations.
+
+% the platform provides a \textit{ROS} real-time extension which integrates the \textit{gmapping} \textit{ROS} package (SLAM scan) into a dedicated internal map environment (\textbf{RosMap}) controlled by a master node (\textbf{Ros})
+
+% The \textit{ROS} section provides compatibility with the \textit{ROS} library by integrating the \textit{gmapping} package (SLAM scan) into an internal map environment (\textbf{RosMap}). The \textbf{Ros} component represents the master node which controls the interactions between the robot and PathBench. 
+
+\textbf{ROS Real-time Extension.} The extension provides real-time support for visualisation, coordination and interaction with a physical robot. The extension is split into two main components: \textbf{RosMap} (integrates the \textit{gmapping} \textit{ROS} package (SLAM scan) into a dedicated internal map environment) and \textbf{Ros (master node)}. We explain the \textbf{Ros (master node)} architecture and functionality in Section \ref{sec: robotexp} (\hyperref[sec: robotexp]{Path Planning on Real-world Robot}) in which we evaluate the performance of the proposed solution on a real robot.
+
+\section{Comparison with other motion planner platforms}
+
+Currently, there are a variety of standardised libraries which contain at least two of the mentioned sections (\textbf{Simulator} and \textbf{Analyzer}) such as: \textit{ROS} \cite{Quigley09}, \textit{OMPL} \cite{sucan2012the_open_motion_planning_library}, \textit{MoveIt} \cite{moveit} (has benchmarking capabilities \cite{moll2015benchmarking}).
+
+\textbf{ROS.} The Robot Operating System (ROS) is a platform which contains various simulation environments (including 2D and 3D) for different types of robots: ground robots with different degrees of freedom constraints, flying robots (drones) and manipulator robots (arm robots which interact with different objects). It represents the standard library in robotics for simulation and development.
+
+\textbf{OMPL.} The Open Motion Planning Library (OMPL) is a standalone library which focuses on motion planning exclusively. It is more lightweight than ROS and has reduced capabilities (there is no collision detection). The library of available path planners is limited to sampling-based planners such as RRT or PRM (probabilistic road maps), but there is a variety of optimised implementation for each type of planner.
+
+\textbf{MoveIt.} Combines both ROS and OMPL to create a high-level implementation for cleaner and faster development of new algorithms. It has more capabilities than ROS and OMPL and includes custom benchmarking techniques \cite{moll2015benchmarking}.
+
+\textbf{PathBench (our platform).} Our implementation offers a more abstract overview of the environment and is extremely lightweight compared to the mentioned libraries. We include both a simulation environment (\textbf{Simulator}) and benchmarking techniques (\textbf{Analyser}), but we also include a generator for creating synthetic datasets for Machine Learning applications (\textbf{Generator}) and a ML training pipeline (\textbf{Trainer}) for generic ML models. The \textbf{Analyser} is quite involved and extensible, but the \textbf{Simulator} has limited capabilities in both rendering and environment interaction compared to the other libraries. The main motivation of using our platform and not the existing standardised libraries is that the platform was build to be used in an ideal research environment. Since, we use ML methods, the focus was set on the path generation and not the interaction between the environment and the agent. However, we do provide a clean API interface for the algorithms which makes them portable to the standardised libraries. Moreover, we provide a \textit{ROS} real-time extension which converts the internal map move action into network messages (velocity control commands) using the \textit{ROS} publisher-subscriber APIs (See Table \ref{tab: plat_comparison} for platform comparison).
+
+%\todo{SAJAD: A table showing features (support for ML, etc) vs platform (ROS, OMPLS, etc) would be the best fit for here.}
+
+\begin{table}[h!]
+    \footnotesize
+    \centerfloat
+    \begin{tabular}{|c|M{1.9cm}|M{2cm}|M{1.4cm}|M{1.9cm}|M{1.2cm}|M{1.8cm}|}
+         \hline
+         \textbf{Platform} & \textbf{Visualisation} & \textbf{Benchmarking} & \textbf{Machine Learning Support} & \textbf{Development Efficiency} & \textbf{Robot Variety} & \textbf{Environment Complexity and Interaction} \\
+         \hline
+         \textbf{ROS} & \checkmark & \xmark & \xmark & \textbf{Reduced} & \textbf{High} & \textbf{High} \\
+         \hline
+         \textbf{OMPL} & \checkmark & \xmark & \xmark & \textbf{High} & \textbf{Reduced} & \textbf{Reduced} \\
+         \hline
+         \textbf{MoveIt} & \checkmark & \checkmark & \xmark & \textbf{Moderate} & \textbf{High} & \textbf{High} \\
+         \hline
+         \textbf{PathBench} & \checkmark & \checkmark & \checkmark & \textbf{High} & \textbf{Reduced} & \textbf{Reduced} \\
+         \hline
+    \end{tabular}
+    \caption{Platform capabilities comparison chart}
+    \label{tab: plat_comparison}
+\end{table}
+
+\begin{figure}[h!]
+    \centerfloat
+    \includegraphics[scale=0.46]{images/simulator_architecture.png}
+    \caption{Full platform architecture overview. Arrows with full head represent dependency ($A \xrightarrow{depends\, on/uses} B$) and arrows with hollow head represent inheritance ($A \xrightarrow{inherits\,from} B$). Colours are mapped as follows: purple is infrastructure, orange is simulator, green is generator, red is trainer, yellow is utility/analyser and white is extension}
+    \label{fig:sim_architecture}
+\end{figure}
+
+\section{Implementation}
+
+Before coding the platform, we have investigated a series of libraries and programming languages and we have decided to write it in \textit{python ver. 3.7.3}, use \textit{pytorch} \cite{paszke2017automatic} for machine learning and \textit{pygame} \cite{pygame} for rendering.
+
+The choice of programming language was straightforward as \textit{python} is the standard in ML and research applications. Moreover, a lot of open source ML libraries are available such as \textit{tensorflow} \cite{tensorflow2015_whitepaper} and \textit{pytorch} which are used both in production software and researching.
+
+For the ML library, we have chosen \textit{pytorch} over \textit{tensorflow}, because \textit{pytorch} was developed with the intent of it being used in research. \textit{tensorflow} is a mature ML library which has extensive community support, and it is used by major companies in production software, but, unlike \textit{pytorch}, it is quite hard to debug, due to the design of the computational graphs. In \textit{tensorflow}, you have to compile the model and use special session variables, while \textit{pytorch} offers the possibility of dynamically changing the computational graphs, which allows the user to debug more easily. This feature is most useful when dealing with RNNs with variable size inputs (in our case the LSTM) \cite{tensorflow_vs_pytorch}.
+
+The simulator was build using the rendering library \textit{pygame}. The other choices included \textit{pyglet} \cite{pyglet} and \textit{Unity 3D} \cite{bartneck2015robot}. \textit{pyglet} is an advanced rendering engine which is based on \textit{OpenGL} \cite{opengl}, but due to the fact that we do not have graphics intensive requirements, a lightweight library such as \textit{pygame} is a better option. Moreover, \textit{pygame} provides useful rendering helper functions which do not require prior knowledge about \textit{OpenGL}, thus making development faster.
+
+\textit{Unity 3D} was considered as an alternative to \textit{pygame} as it provides an additional physics engine which has collision detection and ray casting. Both features were needed in later development stages and had to be manually implemented. The main downside to choosing \textit{Unity 3D} was that we could not use \textit{pytorch} anymore, because \textit{Unity 3D} uses \textit{C\#} as the core programming language. There were multiple solutions to this issue: use \textit{IronPython}\footnote{\textit{IronPython} is a library which provides a \textit{python2} session wrapper that can be directly used in \textit{C\#} code} \cite{foord2009ironpython}, use the \textit{C\#} ML wrappers or create a ML server. However, none of them had a good trade-off to make the switch. Moreover, all solutions required different communication protocols which could have severely affected the performance of the path planners.
+
+\section{Simulator}
+
+The \textbf{Simulator} is both a visualiser tool and an engine for developing \textbf{Algorithm}s (See Figure \ref{fig: sim}). It supports animations and custom \textbf{MapDisplay} components which render the \textbf{Algorithm}'s internal data. Table \ref{tab: sim_commands} from Appendix \ref{sec: app_env} provides a list of user commands which control the simulator during run-time.
+
+A \textbf{Map} contains different entities such as the \textbf{Agent}, \textbf{Goal} and \textbf{Obstacle}s, and provides a clean interface that defines the movement and interaction between them. Therefore, a \textbf{Map} can be extended to support various environments. The downside to this features is that each map has to implement its own physics engine or use a third party one (such as the \textit{pymunk} physics engine \cite{pymunk} or \textit{OpenAI Gym} \cite{OpenAI_Gym}). The current implementation supports three 2D maps: \textbf{DenseMap}, \textbf{SparseMap} and \textbf{RosMap}. 
+
+The \textbf{DenseMap} stores entities in a grid format in order to reduce the time complexity of the APIs (i.e. collision detection, ray casting and line drawing). Collision detection is $\mathcal{O}(1)$, and most operations such as ray casting and line drawing are trivial to implement. When the agent has a radius attached to it, the obstacles are inflated by creating \textbf{ExtendedWall} objects around the obstacle boundary (the method is similar to the repulsion function from Potential Fields; time complexity is $\mathcal{O}(xo)$, where $x$ is the inflation rate and $o$ is the average obstacle size). The agent can overlap the \textbf{ExtendedWall} obstacles as long as the \textbf{ExtendedWall} obstacles do not contain its centre. 
+
+Unlike the \textbf{DenseMap}, the \textbf{SparseMap} stores all entities in a list similar to \textit{Unity 3D}. It does not need obstacle inflation, and it has fast collision detection as only circles are used for each entity (circle collision is $\mathcal{O}(1)$), but it does not implement a pairwise checking algorithm (such as pairwise pruning or sweep and prune) and, thus, the complexity of the whole collision detection system becomes $\mathcal{O}(n^2)$ as all pairs of entities are checked. Thus, the \textbf{SparseMap} is mostly used to create user-defined maps which are then converted to a \textbf{DenseMap}.
+
+% the platform provides a \textit{ROS} real-time extension which integrates the \textit{gmapping} \textit{ROS} package (SLAM scan) into a dedicated internal map environment (\textbf{RosMap}) controlled by a master node (\textbf{Ros})
+
+% The \textit{ROS} section provides compatibility with the \textit{ROS} library by integrating the \textit{gmapping} package (SLAM scan) into an internal map environment (\textbf{RosMap}). The \textbf{Ros} component represents the master node which controls the interactions between the robot and PathBench.
+
+%\todo{Talk about RosMap}
+The \textbf{RosMap} extends the \textbf{DenseMap} to integrate the \textit{gmapping} \textit{ROS} package (SLAM scan) by converting the SLAM output image into an internal map environment. Because we extend the \textbf{DenseMap} component, we inherit the collision detection system and all additional functionality from it. The \textbf{RosMap} environment has support for live updates, meaning that algorithms can query an updated view by running a SLAM scan. The map uses simple callback functions to make SLAM update requests and convert movement actions into network messages using the \textit{ROS} publisher-subscriber communication system.
+
+For all maps, movement is allowed in eight directions: horizontal, vertical and diagonal (movement cost is based on the Euclidean distance: horizontal/vertical 1 and diagonal $\sqrt{2}$). It should be noted that, because we are simulating the map environment, we need the full map information for \textbf{SparseMap} and \textbf{DenseMap}. However, because we provide a \textbf{Map} interface, we can define custom maps (such as \textbf{RosMap}) that restrict the agent information access (e.g. in the real world, the robot usually does not has access to the full information of the environment).
+
+Additionally, the \textbf{Simulator} provides animations that are achieved through key frames and synchronisation primitives (the process is described in Appendix \ref{sec: infra}).
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_43.png}
+     \caption{Wave-front planner (\ref{sec: wave-front})}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_44.png}
+    \caption{A* (\ref{sec:a_star}) \newline}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_46.png}
+     \caption{Dijkstra (\ref{sec: dijkstra}) \newline}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_47.png}
+     \caption{Bug 1 (\ref{sec: bug1}) \newline}
+  \end{subfigure}
+  \newline
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_48.png}
+     \caption{Bug 2 (\ref{sec: bug2}) \newline}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_49.png}
+    \caption{RRT (\ref{sec: RRT}) \newline}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_51.png}
+     \caption{Global Way-point LSTM Planner (\ref{sec: way point nav})}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.2\linewidth}
+    \includegraphics[width=\linewidth]{images/screenshot_50.png}
+    \caption{A* (\ref{sec:a_star}) on a grid display}
+  \end{subfigure}
+  \caption{Different planners run on the same map (except Sub-figure (h)). The red entity is the agent, the green entity is the goal, light green entities are traces, black/light grey entities are obstacles and everything else is custom display information (e.g. in Sub-figure (b) dark grey represents search space)}
+  \label{fig: sim}
+\end{figure}
+
+\pagebreak
+
+\input{simulator/generator.tex}
+\input{simulator/trainer.tex}
+\input{simulator/analyser.tex}

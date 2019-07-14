@@ -1,0 +1,53 @@
+[2019-07-07 17:03:35] - Starting holdout training: {
+	data_features: ['distance_to_goal_normalized', 'raycast_8_normalized', 'direction_to_goal_normalized', 'agent_goal_angle'],
+	data_labels: ['next_position_index'],
+	data_single_features: [],
+	data_single_labels: [],
+	epochs: 2,
+	loss: CrossEntropyLoss(),
+	optimizer: <function BasicMPModule.get_config.<locals>.<lambda> at 0x128d02d90>,
+	validation_ratio: 0.2,
+	test_ratio: 0.2,
+	save_name: mp_tile_by_tile,
+	training_data: ['training_uniform_random_fill_10'],
+	batch_size: 50,
+	num_layers: 2,
+	lstm_input_size: 12,
+	lstm_output_size: 8,
+}
+
+[2019-07-07 17:03:35] - Starting data pre processing
+[2019-07-07 17:03:35] - Cache hit, training data loaded from cache
+[2019-07-07 17:03:35] - Finished data pre processing 
+
+[2019-07-07 17:03:35] - Training: <class 'algorithms.lstm.MP_tile_by_tile.BasicMPModule'>
+[2019-07-07 17:03:35] - Training 	 Epoch: 0 	 Loss: 98.498650 	 Accuracy 0.09 	 Precision: 0.08 	 Recall: 0.12 	 F1: 0.08
+[2019-07-07 17:03:35] - Validation 	 Epoch: 0 	 Loss: 98.867500 	 Accuracy 0.26 	 Precision: 0.04 	 Recall: 0.17 	 F1: 0.07
+
+[2019-07-07 17:03:35] - Training 	 Epoch: 1 	 Loss: 95.672775 	 Accuracy 0.12 	 Precision: 0.13 	 Recall: 0.15 	 F1: 0.10
+[2019-07-07 17:03:35] - Validation 	 Epoch: 1 	 Loss: 98.129730 	 Accuracy 0.26 	 Precision: 0.04 	 Recall: 0.17 	 F1: 0.07
+
+
+[2019-07-07 17:03:35] - Evaluation: <class 'algorithms.lstm.MP_tile_by_tile.BasicMPModule'>
+[2019-07-07 17:03:35] - Evaluation 	 Epoch: 0 	 Loss: 101.186302 	 Accuracy 0.28 	 Precision: 0.04 	 Recall: 0.14 	 F1: 0.06
+
+[2019-07-07 17:03:35] - Saved model as mp_tile_by_tile_training_uniform_random_fill_10_model
+[2019-07-07 17:03:35] - Model: BasicMPModule(
+  (_normalisation_layer1): BatchNorm1d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (_fc_core): Linear(in_features=12, out_features=8, bias=True)
+  (_normalisation_layer2): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (_fc): Linear(in_features=8, out_features=8, bias=True)
+)
+[2019-07-07 17:03:35] - Model loss: 101.1863021850586
+[2019-07-07 17:03:35] - Model accuracy: 0.28448275862068967
+[2019-07-07 17:03:35] - Model precision: 0.04064039408866995
+[2019-07-07 17:03:35] - Model recall: 0.14285714285714285
+[2019-07-07 17:03:35] - Model f1: 0.06327900287631831
+[2019-07-07 17:03:35] - Model confusion matrix: 
+[[ 0  0  0  0 52  0  0]
+ [ 0  0  0  0  1  0  0]
+ [ 0  0  0  0 17  0  0]
+ [ 0  0  0  0  4  0  0]
+ [ 0  0  0  0 33  0  0]
+ [ 0  0  0  0  8  0  0]
+ [ 0  0  0  0  1  0  0]]
